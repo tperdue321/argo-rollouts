@@ -85,6 +85,8 @@ func GetRolloutIngressKeys(rollout *v1alpha1.Rollout) []string {
 // GetCanaryIngressName constructs the name to use for the canary ingress resource from a given Rollout
 func GetCanaryIngressName(rollout *v1alpha1.Rollout) string {
 	// names limited to 253 characters
+	// need to handle the scenario of stableIngresses instead of stableIngress
+	// This may be complicated if this is a function defined by an interface as we can't just "add a parameter" without potentially breaking other canary traffic routing scenarios (e.g. smi, istio, etc)
 	if rollout.Spec.Strategy.Canary != nil &&
 		rollout.Spec.Strategy.Canary.TrafficRouting != nil &&
 		rollout.Spec.Strategy.Canary.TrafficRouting.Nginx != nil &&

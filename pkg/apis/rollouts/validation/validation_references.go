@@ -222,7 +222,7 @@ func ValidateIngress(rollout *v1alpha1.Rollout, ingress *ingressutil.Ingress) fi
 	var ingressName string
 	var serviceName string
 	if rollout.Spec.Strategy.Canary.TrafficRouting.Nginx != nil {
-		fldPath = fldPath.Child("nginx").Child("stableIngress")
+		fldPath = fldPath.Child("nginx").Child("stableIngress") // if we can have multiple ingresses, does this "stableIngress" become a parameter?
 		serviceName = rollout.Spec.Strategy.Canary.StableService
 		ingressName = rollout.Spec.Strategy.Canary.TrafficRouting.Nginx.StableIngress
 	} else if rollout.Spec.Strategy.Canary.TrafficRouting.ALB != nil {
