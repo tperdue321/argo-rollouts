@@ -357,10 +357,10 @@ func (r *Reconciler) SetHeaderRoute(headerRouting *v1alpha1.SetHeaderRoute) erro
 	return nil
 }
 
-// SetWeight modifies Nginx Ingress resources to reach desired state
-func (r *Reconciler) SetWeightV2(desiredWeight int32, additionalDestinations ...v1alpha1.WeightDestination) error {
-	for _, ingress := range r.cfg.Rollout.Spec.Strategy.Canary.TrafficRouting.Nginx.StableIngresses {
-
+// SetWeightMultiIngress modifies each Nginx Ingress resource to reach desired state in the scenario of a rollout
+// having multiple Ngnix Ingress resources.
+func (r *Reconciler) SetWeightPerIngress(desiredWeight int32, ingresses []string) error {
+	for _, ingress := range ingresses {
 		ctx := context.TODO()
 		stableIngressName := ingress
 		// canaryIngressName := ingressutil.GetCanaryIngressName(r.cfg.Rollout, stableIngressName)
