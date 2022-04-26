@@ -188,7 +188,7 @@ func TestCanaryIngressCreate(t *testing.T) {
 	stableIngress.Spec.IngressClassName = pointer.StringPtr("nginx-ext")
 	i := ingressutil.NewLegacyIngress(stableIngress)
 
-	desiredCanaryIngress, err := r.canaryIngress(i, ingressutil.GetCanaryIngressName(r.cfg.Rollout), 10)
+	desiredCanaryIngress, err := r.canaryIngress(i, ingressutil.GetCanaryIngressName(r.cfg.Rollout.GetName(), r.cfg.Rollout.Spec.Strategy.Canary.TrafficRouting.Nginx.StableIngress), 10)
 	assert.Nil(t, err, "No error returned when calling canaryIngress")
 
 	checkBackendService(t, desiredCanaryIngress, "canary-service")
@@ -218,7 +218,7 @@ func TestCanaryIngressPatchWeight(t *testing.T) {
 	stableIngress := ingressutil.NewLegacyIngress(stable)
 	canaryIngress := ingressutil.NewLegacyIngress(canary)
 
-	desiredCanaryIngress, err := r.canaryIngress(stableIngress, ingressutil.GetCanaryIngressName(r.cfg.Rollout), 15)
+	desiredCanaryIngress, err := r.canaryIngress(stableIngress, ingressutil.GetCanaryIngressName(r.cfg.Rollout.GetName(), r.cfg.Rollout.Spec.Strategy.Canary.TrafficRouting.Nginx.StableIngress), 15)
 	assert.Nil(t, err, "No error returned when calling canaryIngress")
 
 	checkBackendService(t, desiredCanaryIngress, "canary-service")
@@ -246,7 +246,7 @@ func TestCanaryIngressUpdatedRoute(t *testing.T) {
 	stableIngress := ingressutil.NewLegacyIngress(stable)
 	canaryIngress := ingressutil.NewLegacyIngress(canary)
 
-	desiredCanaryIngress, err := r.canaryIngress(stableIngress, ingressutil.GetCanaryIngressName(r.cfg.Rollout), 15)
+	desiredCanaryIngress, err := r.canaryIngress(stableIngress, ingressutil.GetCanaryIngressName(r.cfg.Rollout.GetName(), r.cfg.Rollout.Spec.Strategy.Canary.TrafficRouting.Nginx.StableIngress), 15)
 	assert.Nil(t, err, "No error returned when calling canaryIngress")
 
 	checkBackendService(t, desiredCanaryIngress, "canary-service")
@@ -270,7 +270,7 @@ func TestCanaryIngressRetainIngressClass(t *testing.T) {
 	})
 	stableIngress := ingressutil.NewLegacyIngress(stable)
 
-	desiredCanaryIngress, err := r.canaryIngress(stableIngress, ingressutil.GetCanaryIngressName(r.cfg.Rollout), 15)
+	desiredCanaryIngress, err := r.canaryIngress(stableIngress, ingressutil.GetCanaryIngressName(r.cfg.Rollout.GetName(), r.cfg.Rollout.Spec.Strategy.Canary.TrafficRouting.Nginx.StableIngress), 15)
 	assert.Nil(t, err, "No error returned when calling canaryIngress")
 
 	checkBackendService(t, desiredCanaryIngress, "canary-service")
@@ -294,7 +294,7 @@ func TestCanaryIngressAdditionalAnnotations(t *testing.T) {
 	stable := extensionsIngress("stable-ingress", 80, "stable-service")
 	stableIngress := ingressutil.NewLegacyIngress(stable)
 
-	desiredCanaryIngress, err := r.canaryIngress(stableIngress, ingressutil.GetCanaryIngressName(r.cfg.Rollout), 15)
+	desiredCanaryIngress, err := r.canaryIngress(stableIngress, ingressutil.GetCanaryIngressName(r.cfg.Rollout.GetName(), r.cfg.Rollout.Spec.Strategy.Canary.TrafficRouting.Nginx.StableIngress), 15)
 	assert.Nil(t, err, "No error returned when calling canaryIngress")
 
 	checkBackendService(t, desiredCanaryIngress, "canary-service")
@@ -320,7 +320,7 @@ func TestReconciler_canaryIngress(t *testing.T) {
 		i := ingressutil.NewIngress(stableIngress)
 
 		// when
-		desiredCanaryIngress, err := r.canaryIngress(i, ingressutil.GetCanaryIngressName(r.cfg.Rollout), 10)
+		desiredCanaryIngress, err := r.canaryIngress(i, ingressutil.GetCanaryIngressName(r.cfg.Rollout.GetName(), r.cfg.Rollout.Spec.Strategy.Canary.TrafficRouting.Nginx.StableIngress), 10)
 
 		// then
 		assert.Nil(t, err, "No error returned when calling canaryIngress")

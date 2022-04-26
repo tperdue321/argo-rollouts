@@ -237,8 +237,7 @@ func (r *Reconciler) SetWeightPerIngress(desiredWeight int32, ingresses []string
 	for _, ingress := range ingresses {
 		ctx := context.TODO()
 		stableIngressName := ingress
-		// canaryIngressName := ingressutil.GetCanaryIngressName(r.cfg.Rollout, stableIngressName)
-		canaryIngressName := ingressutil.GetCanaryIngressName(r.cfg.Rollout)
+		canaryIngressName := ingressutil.GetCanaryIngressName(r.cfg.Rollout.GetName(), stableIngressName)
 
 		// Check if stable ingress exists (from lister, which has a cache), error if it does not
 		stableIngress, err := r.cfg.IngressWrapper.GetCached(r.cfg.Rollout.Namespace, stableIngressName)
