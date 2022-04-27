@@ -11707,6 +11707,10 @@ spec:
                                 additionalProperties:
                                   type: string
                                 type: object
+                              additionalStableIngresses:
+                                items:
+                                  type: string
+                                type: array
                               annotationPrefix:
                                 type: string
                               stableIngress:
@@ -14680,7 +14684,7 @@ spec:
       containers:
       - args:
         - --namespaced
-        image: quay.io/argoproj/argo-rollouts:latest
+        image: argoproj:latest
         imagePullPolicy: Always
         livenessProbe:
           failureThreshold: 3

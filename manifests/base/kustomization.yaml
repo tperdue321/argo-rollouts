@@ -9,4 +9,4 @@ resources:
 - argo-rollouts-notification-secret.yaml
 images:
 - name: quay.io/argoproj/argo-rollouts
-  newTag: latest
+  newName: argoproj
