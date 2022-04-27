@@ -9,4 +9,4 @@ resources:
 - dashboard-serviceaccount.yaml
 images:
 - name: quay.io/argoproj/kubectl-argo-rollouts
-  newTag: latest
+  newName: argoproj

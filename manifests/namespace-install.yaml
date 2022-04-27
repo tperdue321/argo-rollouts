@@ -388,7 +388,7 @@ spec:
       containers:
       - args:
         - --namespaced
-        image: quay.io/argoproj/argo-rollouts:latest
+        image: argoproj:latest
         imagePullPolicy: Always
         livenessProbe:
           failureThreshold: 3
