@@ -227,7 +227,7 @@ func ValidateIngress(rollout *v1alpha1.Rollout, ingress *ingressutil.Ingress) fi
 		if len(canary.TrafficRouting.Nginx.AdditionalStableIngresses) > 0 {
 			// validate each ingress as valid
 			for _, ing := range canary.TrafficRouting.Nginx.AdditionalStableIngresses {
-			ingressName = ing
+				ingressName = ing
 				allErrs = reportErrors(ingress, serviceName, ingressName, fldPath, allErrs)
 			}
 		}
