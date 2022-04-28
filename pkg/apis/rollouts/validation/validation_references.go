@@ -275,7 +275,8 @@ func validateAlbIngress(canary *v1alpha1.CanaryStrategy, ingress *ingressutil.In
 
 func reportErrors(ingress *ingressutil.Ingress, serviceName, ingressName string, fldPath *field.Path, allErrs field.ErrorList) field.ErrorList {
 	if !ingressutil.HasRuleWithService(ingress, serviceName) {
-		allErrs = append(allErrs, field.Invalid(fldPath, ingressName, "ValidateIngress"))
+		msg := fmt.Sprintf("ingress `%s` has no rules using service %s backend", ingress.GetName(), serviceName)
+		allErrs = append(allErrs, field.Invalid(fldPath, ingressName, "calling function: ValidateIngress"))
 		allErrs = append(allErrs, field.Invalid(fldPath, ingressName, msg))
 	}
 	return allErrs
