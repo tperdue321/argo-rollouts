@@ -120,6 +120,7 @@ func (r *Reconciler) buildCanaryIngress(stableIngress *networkingv1.Ingress, nam
 	}
 
 	if len(desiredCanaryIngress.Spec.Rules) == 0 {
+		r.log.Infof("calling function: %s", "buildCanaryIngress")
 		return nil, fmt.Errorf("ingress `%s` has no rules using service %s backend", stableIngressName, stableServiceName)
 	}
 
@@ -206,6 +207,7 @@ func (r *Reconciler) buildLegacyCanaryIngress(stableIngress *extensionsv1beta1.I
 	}
 
 	if len(desiredCanaryIngress.Spec.Rules) == 0 {
+		r.log.Infof("calling function: %s", "buildLegacyCanaryIngress")
 		return nil, fmt.Errorf("ingress `%s` has no rules using service %s backend", stableIngressName, stableServiceName)
 	}
 
