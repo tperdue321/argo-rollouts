@@ -252,7 +252,6 @@ func ValidateIngress(rollout *v1alpha1.Rollout, ingress *ingressutil.Ingress) fi
 func reportErrors(ingress *ingressutil.Ingress, serviceName, ingressName string, fldPath *field.Path, allErrs field.ErrorList) field.ErrorList {
 	if !ingressutil.HasRuleWithService(ingress, serviceName) {
 		msg := fmt.Sprintf("ingress `%s` has no rules using service %s backend", ingress.GetName(), serviceName)
-		allErrs = append(allErrs, field.Invalid(fldPath, ingressName, "calling function: ValidateIngress"))
 		allErrs = append(allErrs, field.Invalid(fldPath, ingressName, msg))
 	}
 	return allErrs
