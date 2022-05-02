@@ -225,10 +225,13 @@ func (r *Reconciler) canaryIngress(stableIngress *ingressutil.Ingress, name stri
 func (r *Reconciler) SetWeight(desiredWeight int32, additionalDestinations ...v1alpha1.WeightDestination) error {
 	// Set weight for additional ingresses if present
 	if ingresses := r.cfg.Rollout.Spec.Strategy.Canary.TrafficRouting.Nginx.AdditionalStableIngresses; ingresses != nil {
-		// we won't fail out if there is an issue setting weight on additional ingresesses
-		// in an optimistic assumption that StableIngress is the primary Ingress and should
-		// still have it's weight set.
-		r.SetWeightPerIngress(desiredWeight, ingresses)
+		// Fail out if there is an issue setting weight on additional ingresesses.
+		// Fundamental assumption is that each additional Ingress is equal in importance
+		// as primary Ingress resource.
+		if err := r.SetWeightPerIngress(desiredWeight, ingresses); err != nil {
+			return err
+		}
+
 	}
 
 	return r.SetWeightPerIngress(desiredWeight, []string{r.cfg.Rollout.Spec.Strategy.Canary.TrafficRouting.Nginx.StableIngress})
