@@ -61,7 +61,6 @@ func (r *Reconciler) Type() string {
 }
 
 func (r *Reconciler) buildCanaryIngress(stableIngress *networkingv1.Ingress, name string, desiredWeight int32) (*ingressutil.Ingress, error) {
-
 	stableIngressName := r.cfg.Rollout.Spec.Strategy.Canary.TrafficRouting.Nginx.StableIngress
 	stableServiceName := r.cfg.Rollout.Spec.Strategy.Canary.StableService
 	canaryServiceName := r.cfg.Rollout.Spec.Strategy.Canary.CanaryService
