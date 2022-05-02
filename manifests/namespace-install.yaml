@@ -388,7 +388,7 @@ spec:
       containers:
       - args:
         - --namespaced
-        image: tperdue321/argo-rollouts:latest
+        image: argoproj:latest
         imagePullPolicy: Always
         livenessProbe:
           failureThreshold: 3
