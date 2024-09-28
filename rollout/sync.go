@@ -732,6 +732,8 @@ func (c *rolloutContext) calculateRolloutConditions(newStatus v1alpha1.RolloutSt
 }
 
 // persistRolloutStatus persists updates to rollout status. If no changes were made, it is a no-op
+// TODO: Current theory is this is where I should set the abort/success status on ReplicaSetFinalStatusKey for the replica set RS
+// This function is called by `syncRolloutStatusCanary`.
 func (c *rolloutContext) persistRolloutStatus(newStatus *v1alpha1.RolloutStatus) error {
 	ctx := context.TODO()
 	logCtx := logutil.WithVersionFields(c.log, c.rollout)

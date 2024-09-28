@@ -1,10 +1,18 @@
 package rollout
 
 import (
+	"context"
+	"fmt"
+	"strings"
+
 	"github.com/argoproj/argo-rollouts/pkg/apis/rollouts/v1alpha1"
 	analysisutil "github.com/argoproj/argo-rollouts/utils/analysis"
+	"github.com/argoproj/argo-rollouts/utils/annotations"
+	"github.com/argoproj/argo-rollouts/utils/diff"
 	log "github.com/sirupsen/logrus"
 	appsv1 "k8s.io/api/apps/v1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	patchtypes "k8s.io/apimachinery/pkg/types"
 )
 
 type rolloutContext struct {
@@ -138,4 +146,79 @@ func (c *rolloutContext) haltProgress() string {
 		return "inconclusive analysis"
 	}
 	return ""
+}
+
+func (c *rolloutContext) setFinalRSStatus(status string) error {
+	ctx := context.Background()
+
+	patchWithRSFinalStatus := c.generateRSFinalStatusPatch(status)
+	patch, _, err := diff.CreateTwoWayMergePatch(appsv1.ReplicaSet{}, patchWithRSFinalStatus, appsv1.ReplicaSet{})
+
+	if err != nil {
+		return fmt.Errorf("error creating patch in setFinalRSStatus %s: %w", c.newRS.Name, err)
+	}
+
+	c.log.Infof("Patching replicaset with patch: %s", string(patch))
+
+	updatedRS, err := c.kubeclientset.AppsV1().ReplicaSets(patchWithRSFinalStatus.Namespace).Patch(ctx, patchWithRSFinalStatus.Name, patchtypes.StrategicMergePatchType, patch, metav1.PatchOptions{})
+
+	if err != nil {
+		return fmt.Errorf("error patching replicaset in setFinalRSStatus %s: %w", c.newRS.Name, err)
+	}
+
+	err = c.replicaSetInformer.GetIndexer().Update(updatedRS)
+	if err != nil {
+		return fmt.Errorf("error updating replicaset informer in setFinalRSStatus %s: %w", c.newRS.Name, err)
+	}
+
+	return err
+}
+
+func (c *rolloutContext) generateBasePatch(rs *appsv1.ReplicaSet) appsv1.ReplicaSet {
+
+	patchRS := appsv1.ReplicaSet{}
+	patchRS.Spec.Replicas = rs.Spec.Replicas
+	patchRS.Spec.Template.Labels = rs.Spec.Template.Labels
+	patchRS.Spec.Template.Annotations = rs.Spec.Template.Annotations
+
+	patchRS.Annotations = make(map[string]string)
+	patchRS.Labels = make(map[string]string)
+	patchRS.Spec.Selector = &metav1.LabelSelector{
+		MatchLabels: make(map[string]string),
+	}
+
+	if _, found := rs.Labels[v1alpha1.DefaultRolloutUniqueLabelKey]; found {
+		patchRS.Labels[v1alpha1.DefaultRolloutUniqueLabelKey] = rs.Labels[v1alpha1.DefaultRolloutUniqueLabelKey]
+	}
+
+	if _, found := rs.Annotations[v1alpha1.DefaultReplicaSetScaleDownDeadlineAnnotationKey]; found {
+		patchRS.Annotations[v1alpha1.DefaultReplicaSetScaleDownDeadlineAnnotationKey] = rs.Annotations[v1alpha1.DefaultReplicaSetScaleDownDeadlineAnnotationKey]
+	}
+
+	if _, found := rs.Spec.Selector.MatchLabels[v1alpha1.DefaultRolloutUniqueLabelKey]; found {
+		patchRS.Spec.Selector.MatchLabels[v1alpha1.DefaultRolloutUniqueLabelKey] = rs.Spec.Selector.MatchLabels[v1alpha1.DefaultRolloutUniqueLabelKey]
+	}
+
+	for key, value := range rs.Annotations {
+		if strings.HasPrefix(key, annotations.RolloutLabel) ||
+			strings.HasPrefix(key, "argo-rollouts.argoproj.io") ||
+			strings.HasPrefix(key, "experiment.argoproj.io") {
+			patchRS.Annotations[key] = value
+		}
+	}
+	for key, value := range rs.Labels {
+		if strings.HasPrefix(key, annotations.RolloutLabel) ||
+			strings.HasPrefix(key, "argo-rollouts.argoproj.io") ||
+			strings.HasPrefix(key, "experiment.argoproj.io") {
+			patchRS.Labels[key] = value
+		}
+	}
+	return patchRS
+
+}
+
+func (c *rolloutContext) generateRSFinalStatusPatch(status string) *appsv1.ReplicaSet {
+	patch := c.generateBasePatch(c.newRS)
+	patch.Annotations[v1alpha1.ReplicaSetFinalStatusKey] = status
+	return &patch
 }
