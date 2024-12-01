@@ -180,6 +180,11 @@ func newReplicaSetWithStatus(r *v1alpha1.Rollout, replicas int, availableReplica
 	return rs
 }
 
+func setReplicaFixtureFinalStatus(rs *appsv1.ReplicaSet, status string) *appsv1.ReplicaSet {
+	rs.Annotations[v1alpha1.ReplicaSetFinalStatusKey] = status
+	return rs
+}
+
 func newPausedCondition(isPaused bool) (v1alpha1.RolloutCondition, string) {
 	status := corev1.ConditionTrue
 	if !isPaused {
