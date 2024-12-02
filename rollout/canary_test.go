@@ -2252,6 +2252,7 @@ func TestSyncRolloutWithConflictInSyncReplicaSetRevision(t *testing.T) {
 	f.rolloutLister = append(f.rolloutLister, r2)
 	f.objects = append(f.objects, r2)
 
+
 	key := fmt.Sprintf("%s/%s", r1.Namespace, r1.Name)
 	c, i, k8sI := f.newController(func() time.Duration { return 30 * time.Minute })
 
@@ -2262,19 +2263,27 @@ func TestSyncRolloutWithConflictInSyncReplicaSetRevision(t *testing.T) {
 		}, action.(k8stesting.UpdateAction).GetObject().(*appsv1.ReplicaSet).Name, fmt.Errorf("test error"))
 	})
 
-	f.expectPatchRolloutAction(r2)
+	f.expectUpdateReplicaSetAction(rs2)               // attempt to update replicaset revision but conflict
+	patchIndex2 := f.expectPatchReplicaSetAction(rs2) // instead of update patch replicaset
 	f.expectUpdateReplicaSetAction(rs1)               // attempt to update replicaset revision but conflict
 	patchIndex1 := f.expectPatchReplicaSetAction(rs1) // instead of update patch replicaset
+	f.expectPatchRolloutAction(r2)
 
 	f.expectUpdateReplicaSetAction(rs2)               // attempt to scale replicaset but conflict
-	patchIndex2 := f.expectPatchReplicaSetAction(rs2) // instead of update patch replicaset
+	patchIndex2Status := f.expectPatchReplicaSetAction(rs2) // instead of update patch replicaset
 
+	// filterInformerActions(f.client.Actions())
 	f.runController(key, true, false, c, i, k8sI)
 
 	updatedRs1 := f.getPatchedReplicaSet(patchIndex1)
-	assert.Equal(t, "2", updatedRs1.Annotations["rollout.argoproj.io/revision"])
-	assert.Equal(t, int32(3), *updatedRs1.Spec.Replicas)
+	assert.Equal(t, "1", updatedRs1.Annotations["rollout.argoproj.io/revision"])
+	assert.Equal(t, int32(0), *updatedRs1.Spec.Replicas)
 
 	updatedRs2 := f.getPatchedReplicaSet(patchIndex2)
-	assert.Equal(t, int32(0), *updatedRs2.Spec.Replicas)
+	assert.Equal(t, "2", updatedRs2.Annotations["rollout.argoproj.io/revision"])
+	assert.Equal(t, int32(3), *updatedRs2.Spec.Replicas)
+
+	updatedRs2Status := f.getPatchedReplicaSet(patchIndex2Status)
+	assert.Equal(t, FinalStatusSuccess, updatedRs2Status.GetObjectMeta().GetAnnotations()[v1alpha1.ReplicaSetFinalStatusKey])
+
 }
