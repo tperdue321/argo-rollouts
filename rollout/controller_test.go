@@ -1562,6 +1562,7 @@ func TestComputeHashChangeTolerationCanary(t *testing.T) {
 	f.replicaSetLister = append(f.replicaSetLister, rs)
 
 	patchIndex := f.expectPatchRolloutAction(r)
+	f.expectUpdateReplicaSetAction(rs) // set final status to success
 	f.run(getKey(r, t))
 	expectedPatch := `{"status":{"observedGeneration":"123"}}`
 	patch := f.getPatchedRollout(patchIndex)
@@ -2459,6 +2460,7 @@ func TestWriteBackToInformer(t *testing.T) {
 
 	f.expectPatchRolloutAction(r1)
 
+	f.expectUpdateReplicaSetAction(rs1) // set final status to success
 	c, i, k8sI := f.newController(noResyncPeriodFunc)
 	roKey := getKey(r1, t)
 	f.runController(roKey, true, false, c, i, k8sI)
