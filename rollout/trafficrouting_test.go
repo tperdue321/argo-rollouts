@@ -855,6 +855,7 @@ func TestCanaryWithTrafficRoutingAddScaleDownDelay(t *testing.T) {
 	rolloutPatchIndex := f.expectPatchRolloutAction(r2) // patch to update rollout status, hpa selector
 	updateRs2Index := f.expectUpdateReplicaSetAction(rs2) // set final status to success
 	rolloutPatchIndex := f.expectPatchRolloutAction(r2) // patch to update rollout status, hpa selector
+	updateRs2Index := f.expectUpdateReplicaSetAction(rs2) // set final status to success
 	f.run(getKey(r2, t))
 
 	updatedRs2 := f.getUpdatedReplicaSet(updateRs2Index)
