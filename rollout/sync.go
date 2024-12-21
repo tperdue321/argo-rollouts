@@ -902,6 +902,26 @@ func (c *rolloutContext) resetRolloutStatus(newStatus *v1alpha1.RolloutStatus) {
 	newStatus.CurrentStepIndex = replicasetutil.ResetCurrentStepIndex(c.rollout)
 }
 
+// PERSONAL DEV NOTE -- DELETE BEFORE ANY PR
+// TODO: Current theory is this is where I should set the abort/success status on ReplicaSetFinalStatusKey for the replica set RS
+// This function has knowledge of of if the rollout is promoting full or abort
+// do I rename this function and check the RS final status annotation here or do I chain calls to this method with a check for the
+// status annotation separately :thinking:
+// leaning toward separate function for checking annotation and if it's logical to combine within a single function
+// then define a new wrapping function that simply executes c.isRollbackWithinWindow() && c.isfinalStatusValid()
+
+func (c *rolloutContext) isRollbackWithinWindowAndValid() bool {
+	return c.isRollbackWithinWindow() && c.isfinalStatusValid()
+}
+
+func (c *rolloutContext) isfinalStatusValid() bool {
+	if c.newRS != nil && c.newRS.Annotations != nil {
+		finalStatus := c.newRS.Annotations[v1alpha1.ReplicaSetFinalStatusKey]
+		return finalStatus != FinalStatusAbort
+	}
+	return true
+}
+
 func (c *rolloutContext) isRollbackWithinWindow() bool {
 	if c.newRS == nil || c.stableRS == nil {
 		return false
@@ -909,26 +929,24 @@ func (c *rolloutContext) isRollbackWithinWindow() bool {
 	// first check if this is a rollback
 	if c.newRS.CreationTimestamp.Before(&c.stableRS.CreationTimestamp) {
 		// then check if we are within window
-		if c.rollout.Spec.RollbackWindow != nil {
-			if c.rollout.Spec.RollbackWindow.Revisions > 0 {
-				var windowSize int32
-				for _, rs := range c.allRSs {
-					if rs.Annotations != nil && rs.Annotations[v1alpha1.ExperimentNameAnnotationKey] != "" {
-						continue
-					}
+		if c.rollout.Spec.RollbackWindow != nil && c.rollout.Spec.RollbackWindow.Revisions > 0 {
+			var windowSize int32
+			for _, rs := range c.allRSs {
+				if rs.Annotations != nil && rs.Annotations[v1alpha1.ExperimentNameAnnotationKey] != "" {
+					continue
+				}
 
-					// is newRS < rs < stableRS ? then it's part of the window
-					if rs.CreationTimestamp.Before(&c.stableRS.CreationTimestamp) &&
-						c.newRS.CreationTimestamp.Before(&rs.CreationTimestamp) {
-						windowSize = windowSize + 1
-					}
+				// is newRS < rs < stableRS ? then it's part of the window
+				if rs.CreationTimestamp.Before(&c.stableRS.CreationTimestamp) &&
+					c.newRS.CreationTimestamp.Before(&rs.CreationTimestamp) {
+					windowSize = windowSize + 1
 				}
-				if windowSize < c.rollout.Spec.RollbackWindow.Revisions {
-					c.log.Infof("Rollback within the window: %d (%v)", windowSize, c.rollout.Spec.RollbackWindow.Revisions)
-					return true
-				}
-				c.log.Infof("Rollback outside the window: %d (%v)", windowSize, c.rollout.Spec.RollbackWindow.Revisions)
 			}
+			if windowSize < c.rollout.Spec.RollbackWindow.Revisions {
+				c.log.Infof("Rollback within the window: %d (%v)", windowSize, c.rollout.Spec.RollbackWindow.Revisions)
+				return true
+			}
+			c.log.Infof("Rollback outside the window: %d (%v)", windowSize, c.rollout.Spec.RollbackWindow.Revisions)
 		}
 	}
 	return false
