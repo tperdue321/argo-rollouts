@@ -908,7 +908,7 @@ func (c *rolloutContext) resetRolloutStatus(newStatus *v1alpha1.RolloutStatus) {
 // do I rename this function and check the RS final status annotation here or do I chain calls to this method with a check for the
 // status annotation separately :thinking:
 // leaning toward separate function for checking annotation and if it's logical to combine within a single function
-// then define a new wrapping function that simply executes c.isRollbackWithinWindow() && c.isfinalStatusValid()
+// then define a new wrapping function that simply executes c.isRollbackWithinWindowAndValid() && c.isfinalStatusValid()
 
 func (c *rolloutContext) isRollbackWithinWindowAndValid() bool {
 	return c.isRollbackWithinWindow() && c.isfinalStatusValid()
@@ -968,7 +968,7 @@ func (c *rolloutContext) shouldFullPromote(newStatus v1alpha1.RolloutStatus) str
 		if c.rollout.Status.PromoteFull {
 			return "Full promotion requested"
 		}
-		if c.isRollbackWithinWindow() {
+		if c.isRollbackWithinWindowAndValid() {
 			return "Rollback within window"
 		}
 		_, currentStepIndex := replicasetutil.GetCurrentCanaryStep(c.rollout)
@@ -995,7 +995,7 @@ func (c *rolloutContext) shouldFullPromote(newStatus v1alpha1.RolloutStatus) str
 		if c.rollout.Status.PromoteFull {
 			return "Full promotion requested"
 		}
-		if c.isRollbackWithinWindow() {
+		if c.isRollbackWithinWindowAndValid() {
 			return "Rollback within window"
 		}
 		if c.pauseContext.IsAborted() {
