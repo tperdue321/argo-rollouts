@@ -8,28 +8,28 @@
       
       
       
-        <link rel="canonical" href="https://argo-rollouts.readthedocs.io/roadmap/">
+        <link rel="canonical" href="https://argo-rollouts.readthedocs.io/generated/notification-services/awssqs/">
       
       
-        <link rel="prev" href="../security/signed-release-assets/">
+        <link rel="prev" href="../alertmanager/">
       
       
-        <link rel="next" href="../CONTRIBUTING/">
+        <link rel="next" href="../email/">
       
       
-      <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.4">
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.49">
     
     
       
-        <title>Roadmap/Release Schedule - Argo Rollouts - Kubernetes Progressive Delivery Controller</title>
+        <title>AWS SQS - Argo Rollouts - Kubernetes Progressive Delivery Controller</title>
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.bd3936ea.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.6f8fc17f.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.356b1318.min.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
       
       
 
@@ -48,9 +48,9 @@
       
     
     
-      <link rel="stylesheet" href="../assets/versions.css">
+      <link rel="stylesheet" href="../../../assets/versions.css">
     
-    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
   
@@ -59,7 +59,7 @@
   
   
 
-<script id="__analytics">function __md_analytics(){function n(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],n("js",new Date),n("config","G-5Z1VTPDL73"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){this.value&&n("event","search",{search_term:this.value})}),document$.subscribe(function(){var a=document.forms.feedback;if(void 0!==a)for(var e of a.querySelectorAll("[type=submit]"))e.addEventListener("click",function(e){e.preventDefault();var t=document.location.pathname,e=this.getAttribute("data-md-value");n("event","feedback",{page:t,data:e}),a.firstElementChild.disabled=!0;e=a.querySelector(".md-feedback__note [data-md-value='"+e+"']");e&&(e.hidden=!1)}),a.hidden=!1}),location$.subscribe(function(e){n("config","G-5Z1VTPDL73",{page_path:e.pathname})})});var e=document.createElement("script");e.async=!0,e.src="https://www.googletagmanager.com/gtag/js?id=G-5Z1VTPDL73",document.getElementById("__analytics").insertAdjacentElement("afterEnd",e)}</script>
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-5Z1VTPDL73"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-5Z1VTPDL73",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-5Z1VTPDL73",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
   
     <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
   
@@ -80,16 +80,13 @@
     <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="indigo">
   
     
-    
-      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
-    
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
         
-        <a href="#roadmap" class="md-skip">
+        <a href="#aws-sqs" class="md-skip">
           Skip to content
         </a>
       
@@ -105,14 +102,14 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href=".." title="Argo Rollouts - Kubernetes Progressive Delivery Controller" class="md-header__button md-logo" aria-label="Argo Rollouts - Kubernetes Progressive Delivery Controller" data-md-component="logo">
+    <a href="../../.." title="Argo Rollouts - Kubernetes Progressive Delivery Controller" class="md-header__button md-logo" aria-label="Argo Rollouts - Kubernetes Progressive Delivery Controller" data-md-component="logo">
       
-  <img src="../assets/logo.png" alt="logo">
+  <img src="../../../assets/logo.png" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
       
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
     </label>
     <div class="md-header__title" data-md-component="header-title">
       <div class="md-header__ellipsis">
@@ -124,7 +121,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Roadmap/Release Schedule
+              AWS SQS
             
           </span>
         </div>
@@ -137,20 +134,20 @@
     
     
     
-    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
     
-      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6zm0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4zM7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
       </label>
     
   
     
     
     
-    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
     
-      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3Z"/></svg>
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
       </label>
     
   
@@ -158,10 +155,13 @@
       
     
     
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
     
       <label class="md-header__button md-icon" for="__search">
         
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
       </label>
       <div class="md-search" data-md-component="search" role="dialog">
   <label class="md-search__overlay" for="__search"></label>
@@ -170,21 +170,21 @@
       <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
       <label class="md-search__icon md-icon" for="__search">
         
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
         
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
       </label>
       <nav class="md-search__options" aria-label="Search">
         
         <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
           
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
         </button>
       </nav>
       
     </form>
     <div class="md-search__output">
-      <div class="md-search__scrollwrap" data-md-scrollfix>
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
         <div class="md-search-result" data-md-component="search-result">
           <div class="md-search-result__meta">
             Initializing search
@@ -201,7 +201,7 @@
         <a href="https://github.com/argoproj/argo-rollouts" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
   </div>
   <div class="md-source__repository">
     GitHub
@@ -234,9 +234,9 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href=".." title="Argo Rollouts - Kubernetes Progressive Delivery Controller" class="md-nav__button md-logo" aria-label="Argo Rollouts - Kubernetes Progressive Delivery Controller" data-md-component="logo">
+    <a href="../../.." title="Argo Rollouts - Kubernetes Progressive Delivery Controller" class="md-nav__button md-logo" aria-label="Argo Rollouts - Kubernetes Progressive Delivery Controller" data-md-component="logo">
       
-  <img src="../assets/logo.png" alt="logo">
+  <img src="../../../assets/logo.png" alt="logo">
 
     </a>
     Argo Rollouts - Kubernetes Progressive Delivery Controller
@@ -246,7 +246,7 @@
       <a href="https://github.com/argoproj/argo-rollouts" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
   </div>
   <div class="md-source__repository">
     GitHub
@@ -261,8 +261,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href=".." class="md-nav__link">
+      <a href="../../.." class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -280,8 +281,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../installation/" class="md-nav__link">
+      <a href="../../../installation/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -299,8 +301,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../concepts/" class="md-nav__link">
+      <a href="../../../concepts/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -318,8 +321,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../architecture/" class="md-nav__link">
+      <a href="../../../architecture/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -337,14 +341,13 @@
   
   
   
-    
+  
     
     
     
     
     <li class="md-nav__item md-nav__item--nested">
       
-        
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
@@ -373,8 +376,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../getting-started/" class="md-nav__link">
+      <a href="../../../getting-started/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -393,8 +397,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../getting-started/ambassador/" class="md-nav__link">
+      <a href="../../../getting-started/ambassador/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -413,8 +418,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../getting-started/alb/" class="md-nav__link">
+      <a href="../../../getting-started/alb/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -433,8 +439,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../getting-started/appmesh/" class="md-nav__link">
+      <a href="../../../getting-started/appmesh/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -453,8 +460,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../getting-started/istio/" class="md-nav__link">
+      <a href="../../../getting-started/istio/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -473,8 +481,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../getting-started/nginx/" class="md-nav__link">
+      <a href="../../../getting-started/nginx/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -493,8 +502,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../getting-started/smi/" class="md-nav__link">
+      <a href="../../../getting-started/smi/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -513,8 +523,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../getting-started/mixed/" class="md-nav__link">
+      <a href="../../../getting-started/mixed/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -540,8 +551,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../dashboard/" class="md-nav__link">
+      <a href="../../../dashboard/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -559,14 +571,13 @@
   
   
   
-    
+  
     
     
     
     
     <li class="md-nav__item md-nav__item--nested">
       
-        
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
@@ -595,14 +606,13 @@
   
   
   
-    
+  
     
     
     
     
     <li class="md-nav__item md-nav__item--nested">
       
-        
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_1" >
@@ -631,8 +641,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../features/bluegreen/" class="md-nav__link">
+      <a href="../../../features/bluegreen/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -651,8 +662,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../features/canary/" class="md-nav__link">
+      <a href="../../../features/canary/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -679,8 +691,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../features/specification/" class="md-nav__link">
+      <a href="../../../features/specification/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -699,8 +712,30 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../features/hpa-support/" class="md-nav__link">
+      <a href="../../../features/canary/plugins/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Canary Step Plugin
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../features/hpa-support/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -719,8 +754,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../features/vpa-support/" class="md-nav__link">
+      <a href="../../../features/vpa-support/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -739,8 +775,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../features/ephemeral-metadata/" class="md-nav__link">
+      <a href="../../../features/ephemeral-metadata/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -759,8 +796,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../features/restart/" class="md-nav__link">
+      <a href="../../../features/restart/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -779,8 +817,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../features/scaledown-aborted-rs/" class="md-nav__link">
+      <a href="../../../features/scaledown-aborted-rs/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -799,8 +838,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../features/rollback/" class="md-nav__link">
+      <a href="../../../features/rollback/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -819,8 +859,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../features/anti-affinity/anti-affinity/" class="md-nav__link">
+      <a href="../../../features/anti-affinity/anti-affinity/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -839,8 +880,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../features/helm/" class="md-nav__link">
+      <a href="../../../features/helm/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -859,8 +901,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../features/kustomize/" class="md-nav__link">
+      <a href="../../../features/kustomize/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -879,8 +922,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../features/controller-metrics/" class="md-nav__link">
+      <a href="../../../features/controller-metrics/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -906,14 +950,13 @@
   
   
   
-    
+  
     
     
     
     
     <li class="md-nav__item md-nav__item--nested">
       
-        
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
@@ -942,8 +985,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../features/traffic-management/" class="md-nav__link">
+      <a href="../../../features/traffic-management/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -962,8 +1006,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../features/traffic-management/ambassador/" class="md-nav__link">
+      <a href="../../../features/traffic-management/ambassador/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -982,8 +1027,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../features/traffic-management/apisix/" class="md-nav__link">
+      <a href="../../../features/traffic-management/apisix/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1002,8 +1048,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../features/traffic-management/alb/" class="md-nav__link">
+      <a href="../../../features/traffic-management/alb/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1022,8 +1069,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../features/traffic-management/google-cloud/" class="md-nav__link">
+      <a href="../../../features/traffic-management/google-cloud/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1042,8 +1090,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../features/traffic-management/istio/" class="md-nav__link">
+      <a href="../../../features/traffic-management/istio/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1062,8 +1111,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../features/traffic-management/kong/" class="md-nav__link">
+      <a href="../../../features/traffic-management/kong/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1082,8 +1132,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../features/traffic-management/nginx/" class="md-nav__link">
+      <a href="../../../features/traffic-management/nginx/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1102,8 +1153,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../features/traffic-management/plugins/" class="md-nav__link">
+      <a href="../../../features/traffic-management/plugins/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1122,8 +1174,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../features/traffic-management/smi/" class="md-nav__link">
+      <a href="../../../features/traffic-management/smi/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1142,8 +1195,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../features/traffic-management/traefik/" class="md-nav__link">
+      <a href="../../../features/traffic-management/traefik/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1169,14 +1223,13 @@
   
   
   
-    
+  
     
     
     
     
     <li class="md-nav__item md-nav__item--nested">
       
-        
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
@@ -1205,8 +1258,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../features/analysis/" class="md-nav__link">
+      <a href="../../../features/analysis/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1225,8 +1279,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../analysis/plugins/" class="md-nav__link">
+      <a href="../../../analysis/plugins/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1245,8 +1300,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../analysis/prometheus/" class="md-nav__link">
+      <a href="../../../analysis/prometheus/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1265,8 +1321,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../analysis/datadog/" class="md-nav__link">
+      <a href="../../../analysis/datadog/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1285,8 +1342,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../analysis/newrelic/" class="md-nav__link">
+      <a href="../../../analysis/newrelic/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1305,8 +1363,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../analysis/wavefront/" class="md-nav__link">
+      <a href="../../../analysis/wavefront/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1325,8 +1384,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../analysis/job/" class="md-nav__link">
+      <a href="../../../analysis/job/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1345,8 +1405,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../analysis/web/" class="md-nav__link">
+      <a href="../../../analysis/web/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1365,8 +1426,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../analysis/kayenta/" class="md-nav__link">
+      <a href="../../../analysis/kayenta/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1385,8 +1447,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../analysis/cloudwatch/" class="md-nav__link">
+      <a href="../../../analysis/cloudwatch/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1405,8 +1468,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../analysis/graphite/" class="md-nav__link">
+      <a href="../../../analysis/graphite/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1425,8 +1489,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../analysis/influxdb/" class="md-nav__link">
+      <a href="../../../analysis/influxdb/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1445,8 +1510,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../analysis/skywalking/" class="md-nav__link">
+      <a href="../../../analysis/skywalking/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1472,8 +1538,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../features/experiment/" class="md-nav__link">
+      <a href="../../../features/experiment/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1490,18 +1557,19 @@
       
   
   
+    
+  
+  
   
     
     
     
     
-    
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" checked>
         
           
           <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
@@ -1515,7 +1583,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_11">
             <span class="md-nav__icon md-icon"></span>
             Notifications
@@ -1527,8 +1595,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../features/notifications/" class="md-nav__link">
+      <a href="../../../features/notifications/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1546,18 +1615,19 @@
                 
   
   
+    
+  
+  
   
     
     
     
     
-    
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11_2" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11_2" checked>
         
           
           <label class="md-nav__link" for="__nav_11_2" id="__nav_11_2_label" tabindex="0">
@@ -1571,7 +1641,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_11_2_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_11_2_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_11_2">
             <span class="md-nav__icon md-icon"></span>
             Services
@@ -1583,8 +1653,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../generated/notification-services/alertmanager/" class="md-nav__link">
+      <a href="../alertmanager/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1602,9 +1673,122 @@
                 
   
   
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    AWS SQS
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    AWS SQS
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Example">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-secret-for-credential-retrieval" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using Secret for credential retrieval:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#minimal-configuration-using-aws-env-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      Minimal configuration using AWS Env variables
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fifo-sqs-queues" class="md-nav__link">
+    <span class="md-ellipsis">
+      FIFO SQS Queues
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
   
     <li class="md-nav__item">
-      <a href="../generated/notification-services/email/" class="md-nav__link">
+      <a href="../email/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1623,8 +1807,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../generated/notification-services/github/" class="md-nav__link">
+      <a href="../github/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1643,8 +1828,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../generated/notification-services/googlechat/" class="md-nav__link">
+      <a href="../googlechat/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1663,8 +1849,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../generated/notification-services/grafana/" class="md-nav__link">
+      <a href="../grafana/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1683,8 +1870,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../generated/notification-services/mattermost/" class="md-nav__link">
+      <a href="../mattermost/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1703,8 +1891,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../generated/notification-services/newrelic/" class="md-nav__link">
+      <a href="../newrelic/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1723,8 +1912,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../generated/notification-services/opsgenie/" class="md-nav__link">
+      <a href="../opsgenie/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1743,8 +1933,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../generated/notification-services/overview/" class="md-nav__link">
+      <a href="../overview/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1763,12 +1954,13 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../generated/notification-services/pagerduty/" class="md-nav__link">
+      <a href="../pagerduty/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Pagerduty
+    PagerDuty
   </span>
   
 
@@ -1783,8 +1975,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../generated/notification-services/pagerduty_v2/" class="md-nav__link">
+      <a href="../pagerduty_v2/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1803,8 +1996,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../generated/notification-services/pushover/" class="md-nav__link">
+      <a href="../pushover/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1823,8 +2017,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../generated/notification-services/rocketchat/" class="md-nav__link">
+      <a href="../rocketchat/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1843,8 +2038,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../generated/notification-services/slack/" class="md-nav__link">
+      <a href="../slack/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1863,8 +2059,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../generated/notification-services/teams/" class="md-nav__link">
+      <a href="../teams/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1883,8 +2080,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../generated/notification-services/telegram/" class="md-nav__link">
+      <a href="../telegram/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1903,8 +2101,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../generated/notification-services/webex/" class="md-nav__link">
+      <a href="../webex/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1923,8 +2122,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../generated/notification-services/webhook/" class="md-nav__link">
+      <a href="../webhook/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1958,14 +2158,13 @@
   
   
   
-    
+  
     
     
     
     
     <li class="md-nav__item md-nav__item--nested">
       
-        
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
@@ -1994,8 +2193,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../features/kubectl-plugin/" class="md-nav__link">
+      <a href="../../../features/kubectl-plugin/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2014,14 +2214,13 @@
   
   
   
-    
+  
     
     
     
     
     <li class="md-nav__item md-nav__item--nested">
       
-        
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12_2" >
@@ -2050,8 +2249,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../generated/kubectl-argo-rollouts/kubectl-argo-rollouts/" class="md-nav__link">
+      <a href="../../kubectl-argo-rollouts/kubectl-argo-rollouts/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2070,8 +2270,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../generated/kubectl-argo-rollouts/kubectl-argo-rollouts_abort/" class="md-nav__link">
+      <a href="../../kubectl-argo-rollouts/kubectl-argo-rollouts_abort/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2090,8 +2291,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../generated/kubectl-argo-rollouts/kubectl-argo-rollouts_completion/" class="md-nav__link">
+      <a href="../../kubectl-argo-rollouts/kubectl-argo-rollouts_completion/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2110,8 +2312,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../generated/kubectl-argo-rollouts/kubectl-argo-rollouts_create/" class="md-nav__link">
+      <a href="../../kubectl-argo-rollouts/kubectl-argo-rollouts_create/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2130,8 +2333,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../generated/kubectl-argo-rollouts/kubectl-argo-rollouts_create_analysisrun/" class="md-nav__link">
+      <a href="../../kubectl-argo-rollouts/kubectl-argo-rollouts_create_analysisrun/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2150,8 +2354,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../generated/kubectl-argo-rollouts/kubectl-argo-rollouts_dashboard/" class="md-nav__link">
+      <a href="../../kubectl-argo-rollouts/kubectl-argo-rollouts_dashboard/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2170,8 +2375,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../generated/kubectl-argo-rollouts/kubectl-argo-rollouts_get/" class="md-nav__link">
+      <a href="../../kubectl-argo-rollouts/kubectl-argo-rollouts_get/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2190,8 +2396,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../generated/kubectl-argo-rollouts/kubectl-argo-rollouts_get_experiment/" class="md-nav__link">
+      <a href="../../kubectl-argo-rollouts/kubectl-argo-rollouts_get_experiment/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2210,8 +2417,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../generated/kubectl-argo-rollouts/kubectl-argo-rollouts_get_rollout/" class="md-nav__link">
+      <a href="../../kubectl-argo-rollouts/kubectl-argo-rollouts_get_rollout/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2230,8 +2438,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../generated/kubectl-argo-rollouts/kubectl-argo-rollouts_lint/" class="md-nav__link">
+      <a href="../../kubectl-argo-rollouts/kubectl-argo-rollouts_lint/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2250,8 +2459,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../generated/kubectl-argo-rollouts/kubectl-argo-rollouts_list/" class="md-nav__link">
+      <a href="../../kubectl-argo-rollouts/kubectl-argo-rollouts_list/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2270,8 +2480,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../generated/kubectl-argo-rollouts/kubectl-argo-rollouts_list_experiments/" class="md-nav__link">
+      <a href="../../kubectl-argo-rollouts/kubectl-argo-rollouts_list_experiments/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2290,8 +2501,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../generated/kubectl-argo-rollouts/kubectl-argo-rollouts_list_rollouts/" class="md-nav__link">
+      <a href="../../kubectl-argo-rollouts/kubectl-argo-rollouts_list_rollouts/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2310,8 +2522,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../generated/kubectl-argo-rollouts/kubectl-argo-rollouts_notifications/" class="md-nav__link">
+      <a href="../../kubectl-argo-rollouts/kubectl-argo-rollouts_notifications/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2330,8 +2543,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../generated/kubectl-argo-rollouts/kubectl-argo-rollouts_notifications_template/" class="md-nav__link">
+      <a href="../../kubectl-argo-rollouts/kubectl-argo-rollouts_notifications_template/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2350,8 +2564,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../generated/kubectl-argo-rollouts/kubectl-argo-rollouts_notifications_template_get/" class="md-nav__link">
+      <a href="../../kubectl-argo-rollouts/kubectl-argo-rollouts_notifications_template_get/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2370,8 +2585,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../generated/kubectl-argo-rollouts/kubectl-argo-rollouts_notifications_template_notify/" class="md-nav__link">
+      <a href="../../kubectl-argo-rollouts/kubectl-argo-rollouts_notifications_template_notify/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2390,8 +2606,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../generated/kubectl-argo-rollouts/kubectl-argo-rollouts_notifications_trigger/" class="md-nav__link">
+      <a href="../../kubectl-argo-rollouts/kubectl-argo-rollouts_notifications_trigger/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2410,8 +2627,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../generated/kubectl-argo-rollouts/kubectl-argo-rollouts_notifications_trigger_get/" class="md-nav__link">
+      <a href="../../kubectl-argo-rollouts/kubectl-argo-rollouts_notifications_trigger_get/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2430,8 +2648,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../generated/kubectl-argo-rollouts/kubectl-argo-rollouts_notifications_trigger_run/" class="md-nav__link">
+      <a href="../../kubectl-argo-rollouts/kubectl-argo-rollouts_notifications_trigger_run/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2450,8 +2669,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../generated/kubectl-argo-rollouts/kubectl-argo-rollouts_pause/" class="md-nav__link">
+      <a href="../../kubectl-argo-rollouts/kubectl-argo-rollouts_pause/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2470,8 +2690,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../generated/kubectl-argo-rollouts/kubectl-argo-rollouts_promote/" class="md-nav__link">
+      <a href="../../kubectl-argo-rollouts/kubectl-argo-rollouts_promote/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2490,8 +2711,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../generated/kubectl-argo-rollouts/kubectl-argo-rollouts_restart/" class="md-nav__link">
+      <a href="../../kubectl-argo-rollouts/kubectl-argo-rollouts_restart/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2510,8 +2732,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../generated/kubectl-argo-rollouts/kubectl-argo-rollouts_retry/" class="md-nav__link">
+      <a href="../../kubectl-argo-rollouts/kubectl-argo-rollouts_retry/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2530,8 +2753,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../generated/kubectl-argo-rollouts/kubectl-argo-rollouts_retry_experiment/" class="md-nav__link">
+      <a href="../../kubectl-argo-rollouts/kubectl-argo-rollouts_retry_experiment/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2550,8 +2774,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../generated/kubectl-argo-rollouts/kubectl-argo-rollouts_retry_rollout/" class="md-nav__link">
+      <a href="../../kubectl-argo-rollouts/kubectl-argo-rollouts_retry_rollout/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2570,8 +2795,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../generated/kubectl-argo-rollouts/kubectl-argo-rollouts_set/" class="md-nav__link">
+      <a href="../../kubectl-argo-rollouts/kubectl-argo-rollouts_set/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2590,8 +2816,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../generated/kubectl-argo-rollouts/kubectl-argo-rollouts_set_image/" class="md-nav__link">
+      <a href="../../kubectl-argo-rollouts/kubectl-argo-rollouts_set_image/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2610,8 +2837,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../generated/kubectl-argo-rollouts/kubectl-argo-rollouts_status/" class="md-nav__link">
+      <a href="../../kubectl-argo-rollouts/kubectl-argo-rollouts_status/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2630,8 +2858,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../generated/kubectl-argo-rollouts/kubectl-argo-rollouts_terminate/" class="md-nav__link">
+      <a href="../../kubectl-argo-rollouts/kubectl-argo-rollouts_terminate/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2650,8 +2879,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../generated/kubectl-argo-rollouts/kubectl-argo-rollouts_terminate_analysisrun/" class="md-nav__link">
+      <a href="../../kubectl-argo-rollouts/kubectl-argo-rollouts_terminate_analysisrun/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2670,8 +2900,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../generated/kubectl-argo-rollouts/kubectl-argo-rollouts_terminate_experiment/" class="md-nav__link">
+      <a href="../../kubectl-argo-rollouts/kubectl-argo-rollouts_terminate_experiment/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2690,8 +2921,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../generated/kubectl-argo-rollouts/kubectl-argo-rollouts_undo/" class="md-nav__link">
+      <a href="../../kubectl-argo-rollouts/kubectl-argo-rollouts_undo/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2710,8 +2942,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../generated/kubectl-argo-rollouts/kubectl-argo-rollouts_version/" class="md-nav__link">
+      <a href="../../kubectl-argo-rollouts/kubectl-argo-rollouts_version/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2745,8 +2978,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../best-practices/" class="md-nav__link">
+      <a href="../../../best-practices/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2764,8 +2998,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../migrating/" class="md-nav__link">
+      <a href="../../../migrating/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2783,8 +3018,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../FAQ/" class="md-nav__link">
+      <a href="../../../FAQ/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2802,14 +3038,13 @@
   
   
   
-    
+  
     
     
     
     
     <li class="md-nav__item md-nav__item--nested">
       
-        
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_16" >
@@ -2838,8 +3073,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../security/security/" class="md-nav__link">
+      <a href="../../../security/security/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2858,8 +3094,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../security/signed-release-assets/" class="md-nav__link">
+      <a href="../../../security/signed-release-assets/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2884,121 +3121,8 @@
       
   
   
-    
   
   
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Roadmap/Release Schedule
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
-        
-  
-  <span class="md-ellipsis">
-    Roadmap/Release Schedule
-  </span>
-  
-
-      </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#release-cycle" class="md-nav__link">
-    Release Cycle
-  </a>
-  
-    <nav class="md-nav" aria-label="Release Cycle">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#schedule" class="md-nav__link">
-    Schedule
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#release-process" class="md-nav__link">
-    Release Process
-  </a>
-  
-    <nav class="md-nav" aria-label="Release Process">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#minor-releases-eg-1x0" class="md-nav__link">
-    Minor Releases (e.g. 1.x.0)
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#patch-releases-eg-14x" class="md-nav__link">
-    Patch Releases (e.g. 1.4.x)
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#feature-acceptance-criteria" class="md-nav__link">
-    Feature Acceptance Criteria
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-    
     
     
     
@@ -3007,11 +3131,10 @@
       
         
         
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_18" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_17" >
         
           
-          <label class="md-nav__link" for="__nav_18" id="__nav_18_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_17" id="__nav_17_label" tabindex="0">
             
   
   <span class="md-ellipsis">
@@ -3022,8 +3145,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_18_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_18">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_17_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_17">
             <span class="md-nav__icon md-icon"></span>
             Contributing
           </label>
@@ -3034,8 +3157,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../CONTRIBUTING/" class="md-nav__link">
+      <a href="../../../CONTRIBUTING/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3054,8 +3178,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../getting-started/setup/" class="md-nav__link">
+      <a href="../../../getting-started/setup/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3074,8 +3199,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../releasing/" class="md-nav__link">
+      <a href="../../../releasing/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3094,8 +3220,9 @@
   
   
   
+  
     <li class="md-nav__item">
-      <a href="../plugins/" class="md-nav__link">
+      <a href="../../../plugins/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3121,6 +3248,7 @@
   
   
   
+  
     <li class="md-nav__item">
       <a href="https://github.com/argoproj/argo-rollouts/releases" class="md-nav__link">
         
@@ -3140,6 +3268,7 @@
   
   
   
+  
     <li class="md-nav__item">
       <a href="https://github.com/argoproj/argo-rollouts/milestones" class="md-nav__link">
         
@@ -3156,6 +3285,7 @@
     
       
       
+  
   
   
   
@@ -3200,38 +3330,38 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#release-cycle" class="md-nav__link">
-    Release Cycle
+  <a href="#parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
   </a>
   
-    <nav class="md-nav" aria-label="Release Cycle">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Example">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#schedule" class="md-nav__link">
-    Schedule
+  <a href="#using-secret-for-credential-retrieval" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using Secret for credential retrieval:
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#release-process" class="md-nav__link">
-    Release Process
-  </a>
-  
-    <nav class="md-nav" aria-label="Release Process">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#minor-releases-eg-1x0" class="md-nav__link">
-    Minor Releases (e.g. 1.x.0)
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#patch-releases-eg-14x" class="md-nav__link">
-    Patch Releases (e.g. 1.4.x)
+  <a href="#minimal-configuration-using-aws-env-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      Minimal configuration using AWS Env variables
+    </span>
   </a>
   
 </li>
@@ -3240,16 +3370,13 @@
     </nav>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#feature-acceptance-criteria" class="md-nav__link">
-    Feature Acceptance Criteria
+      
+        <li class="md-nav__item">
+  <a href="#fifo-sqs-queues" class="md-nav__link">
+    <span class="md-ellipsis">
+      FIFO SQS Queues
+    </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -3271,76 +3398,111 @@
   
 
 
-<h1 id="roadmap">Roadmap<a class="headerlink" href="#roadmap" title="Permanent link">&para;</a></h1>
-<p>The Argo Rollouts roadmap is maintained in Github Milestones on the Github repository.</p>
-<h2 id="release-cycle">Release Cycle<a class="headerlink" href="#release-cycle" title="Permanent link">&para;</a></h2>
-<h3 id="schedule">Schedule<a class="headerlink" href="#schedule" title="Permanent link">&para;</a></h3>
-<p>These are the upcoming releases date estimates:</p>
-<table>
-<thead>
-<tr>
-<th>Release</th>
-<th>Release Planning Meeting</th>
-<th>Release Candidate 1</th>
-<th>General Availability</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>v1.4</td>
-<td>TBD</td>
-<td>Monday, Dec. 19, 2022</td>
-<td>Tuesday, Jan. 9, 2023</td>
-</tr>
-<tr>
-<td>v1.5</td>
-<td>Monday, Mar. 6, 2023</td>
-<td>Monday, Mar. 20, 2023</td>
-<td>Monday, Apr. 10, 2023</td>
-</tr>
-<tr>
-<td>v1.6</td>
-<td>Monday, Jun. 5, 2023</td>
-<td>Monday, Jun. 19, 2023</td>
-<td>Wednesday, Jul. 12, 2023</td>
-</tr>
-<tr>
-<td>v1.7</td>
-<td>Monday, Sep. 4, 2023</td>
-<td>Monday, Sep. 18, 2023</td>
-<td>Monday, Oct. 9, 2023</td>
-</tr>
-</tbody>
-</table>
-<h3 id="release-process">Release Process<a class="headerlink" href="#release-process" title="Permanent link">&para;</a></h3>
-<h4 id="minor-releases-eg-1x0">Minor Releases (e.g. 1.x.0)<a class="headerlink" href="#minor-releases-eg-1x0" title="Permanent link">&para;</a></h4>
-<p>A minor Argo Rollouts release occurs four times a year, once every three months. Each General Availability (GA) release is
-preceded by several Release Candidates (RCs). The first RC is released three weeks before the scheduled GA date.</p>
-<p>These are the approximate release dates:</p>
+<h1 id="aws-sqs">AWS SQS<a class="headerlink" href="#aws-sqs" title="Permanent link">&para;</a></h1>
+<h2 id="parameters">Parameters<a class="headerlink" href="#parameters" title="Permanent link">&para;</a></h2>
+<p>This notification service is capable of sending simple messages to AWS SQS queue.</p>
 <ul>
-<li>The first Monday of January</li>
-<li>The first Monday of April</li>
-<li>The first Monday of July</li>
-<li>The first Monday of October</li>
+<li><code>queue</code> - name of the queue you are intending to send messages to. Can be overridden with target destination annotation.</li>
+<li><code>region</code> - region of the sqs queue can be provided via env variable AWS_DEFAULT_REGION</li>
+<li><code>key</code> - optional, aws access key must be either referenced from a secret via variable or via env variable AWS_ACCESS_KEY_ID</li>
+<li><code>secret</code> - optional, aws access secret must be either referenced from a secret via variable or via env variable AWS_SECRET_ACCESS_KEY</li>
+<li><code>account</code> optional, external accountId of the queue</li>
+<li><code>endpointUrl</code> optional, useful for development with localstack</li>
 </ul>
-<p>Dates may be shifted slightly to accommodate holidays. Those shifts should be minimal.</p>
-<h4 id="patch-releases-eg-14x">Patch Releases (e.g. 1.4.x)<a class="headerlink" href="#patch-releases-eg-14x" title="Permanent link">&para;</a></h4>
-<p>Argo Rollouts patch releases occur on an as-needed basis. Only the three most recent minor versions are eligible for patch
-releases. Versions older than the three most recent minor versions are considered EOL and will not receive bug fixes or
-security updates.</p>
-<h3 id="feature-acceptance-criteria">Feature Acceptance Criteria<a class="headerlink" href="#feature-acceptance-criteria" title="Permanent link">&para;</a></h3>
-<p>To be eligible for inclusion in a minor release, a new feature must meet the following criteria before the release’s RC
-date.</p>
-<p>If it is a large feature that involves significant design decisions, that feature must be described in a Proposal.</p>
-<p>The feature PR must include:</p>
+<h2 id="example">Example<a class="headerlink" href="#example" title="Permanent link">&para;</a></h2>
+<h3 id="using-secret-for-credential-retrieval">Using Secret for credential retrieval:<a class="headerlink" href="#using-secret-for-credential-retrieval" title="Permanent link">&para;</a></h3>
+<p>Resource Annotation:
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apps/v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deployment</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx-deployment</span>
+<span class="w">  </span><span class="nt">annotations</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">notifications.argoproj.io/subscribe.on-deployment-ready.awssqs</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;overwrite-myqueue&quot;</span>
+</code></pre></div></p>
 <ul>
-<li>Tests (passing)</li>
-<li>Documentation</li>
-<li>If necessary, a note in the Upgrading docs for the planned minor release</li>
-<li>The PR must be reviewed, approved, and merged by an Approver.</li>
+<li>ConfigMap
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ConfigMap</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">argo-rollouts-notification-configmap</span>
+<span class="nt">data</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">service.awssqs</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">    </span><span class="no">region: &quot;us-east-2&quot;</span>
+<span class="w">    </span><span class="no">queue: &quot;myqueue&quot;</span>
+<span class="w">    </span><span class="no">account: &quot;1234567&quot;</span>
+<span class="w">    </span><span class="no">key: &quot;$awsaccess_key&quot;</span>
+<span class="w">    </span><span class="no">secret: &quot;$awsaccess_secret&quot;</span>
+
+<span class="w">  </span><span class="nt">template.deployment-ready</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">    </span><span class="no">message: |</span>
+<span class="w">      </span><span class="no">Deployment {{.obj.metadata.name}} is ready!</span>
+
+<span class="w">  </span><span class="nt">trigger.on-deployment-ready</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">    </span><span class="no">- when: any(obj.status.conditions, {.type == &#39;Available&#39; &amp;&amp; .status == &#39;True&#39;})</span>
+<span class="w">      </span><span class="no">send: [deployment-ready]</span>
+<span class="w">    </span><span class="no">- oncePer: obj.metadata.annotations[&quot;generation&quot;]</span>
+</code></pre></div>
+ Secret
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Secret</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;secret-name&gt;</span>
+<span class="nt">stringData</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">awsaccess_key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">test</span>
+<span class="w">  </span><span class="nt">awsaccess_secret</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">test</span>
+</code></pre></div></li>
 </ul>
-<p>If these criteria are not met by the RC date, the feature will be ineligible for inclusion in the RC series or GA for
-that minor release. It will have to wait for the next minor release.</p>
+<h3 id="minimal-configuration-using-aws-env-variables">Minimal configuration using AWS Env variables<a class="headerlink" href="#minimal-configuration-using-aws-env-variables" title="Permanent link">&para;</a></h3>
+<p>Ensure the following list of environment variables are injected via OIDC, or another method. And assuming SQS is local to the account.
+You may skip usage of secret for sensitive data and omit other parameters. (Setting parameters via ConfigMap takes precedent.)</p>
+<p>Variables:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">AWS_ACCESS_KEY_ID</span><span class="o">=</span><span class="s2">&quot;test&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">AWS_SECRET_ACCESS_KEY</span><span class="o">=</span><span class="s2">&quot;test&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">AWS_DEFAULT_REGION</span><span class="o">=</span><span class="s2">&quot;us-east-1&quot;</span>
+</code></pre></div>
+<p>Resource Annotation:
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apps/v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deployment</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx-deployment</span>
+<span class="w">  </span><span class="nt">annotations</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">notifications.argoproj.io/subscribe.on-deployment-ready.awssqs</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span>
+</code></pre></div></p>
+<ul>
+<li>ConfigMap
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ConfigMap</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">argo-rollouts-notification-configmap</span>
+<span class="nt">data</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">service.awssqs</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">    </span><span class="no">queue: &quot;myqueue&quot;</span>
+
+<span class="w">  </span><span class="nt">template.deployment-ready</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">    </span><span class="no">message: |</span>
+<span class="w">      </span><span class="no">Deployment {{.obj.metadata.name}} is ready!</span>
+
+<span class="w">  </span><span class="nt">trigger.on-deployment-ready</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">    </span><span class="no">- when: any(obj.status.conditions, {.type == &#39;Available&#39; &amp;&amp; .status == &#39;True&#39;})</span>
+<span class="w">      </span><span class="no">send: [deployment-ready]</span>
+<span class="w">    </span><span class="no">- oncePer: obj.metadata.annotations[&quot;generation&quot;]</span>
+</code></pre></div></li>
+</ul>
+<h2 id="fifo-sqs-queues">FIFO SQS Queues<a class="headerlink" href="#fifo-sqs-queues" title="Permanent link">&para;</a></h2>
+<p>FIFO queues require a <a href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/API_SendMessage.html#SQS-SendMessage-request-MessageGroupId">MessageGroupId</a> to be sent along with every message, every message with a matching MessageGroupId will be processed one by one in order.</p>
+<p>To send to a FIFO SQS Queue you must include a <code>messageGroupId</code> in the template such as in the example below:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">template.deployment-ready</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">  </span><span class="no">message: |</span>
+<span class="w">    </span><span class="no">Deployment {{.obj.metadata.name}} is ready!</span>
+<span class="w">  </span><span class="no">messageGroupId: {{.obj.metadata.name}}-deployment</span>
+</code></pre></div>
+
+
+
+
+
+
+
 
 
   
@@ -3353,6 +3515,7 @@ that minor release. It will have to wait for the next minor release.</p>
             </div>
           
           
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
         
       </main>
@@ -3381,12 +3544,12 @@ that minor release. It will have to wait for the next minor release.</p>
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../../..", "features": [], "search": "../../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.94c44541.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.88dd0f4e.min.js"></script>
       
-        <script src="../assets/versions.js"></script>
+        <script src="../../../assets/versions.js"></script>
       
     
   </body>
