@@ -167,7 +167,7 @@ func (c *rolloutContext) setFinalRSStatus(rs *appsv1.ReplicaSet, status string) 
 		if errors.IsConflict(err) {
 			// if os.Getenv("ARGO_ROLLOUTS_LOG_RS_DIFF_CONFLICT") == "true" {
 			// }
-			newRS,  err = c.setFinalRSStatusViaPatch(ctx, rs, status)
+			newRS, err = c.setFinalRSStatusViaPatch(ctx, rs, status)
 			if err != nil {
 				return fmt.Errorf("error patching replicaset in setFinalRSStatus %s: %w", rs.Name, err)
 			}
@@ -184,13 +184,13 @@ func (c *rolloutContext) setFinalRSStatus(rs *appsv1.ReplicaSet, status string) 
 	return err
 }
 
-func (c *rolloutContext) setFinalRSStatusViaUpdate(ctx context.Context, rs *appsv1.ReplicaSet, status string) (*appsv1.ReplicaSet,error) {
+func (c *rolloutContext) setFinalRSStatusViaUpdate(ctx context.Context, rs *appsv1.ReplicaSet, status string) (*appsv1.ReplicaSet, error) {
 	rs.Annotations[v1alpha1.ReplicaSetFinalStatusKey] = status
 	c.log.Infof("Updating replicaset with status: %s", status)
 	return c.kubeclientset.AppsV1().ReplicaSets(rs.Namespace).Update(ctx, rs, metav1.UpdateOptions{})
 }
 
-func (c *rolloutContext) setFinalRSStatusViaPatch(ctx context.Context, rs *appsv1.ReplicaSet, status string) (*appsv1.ReplicaSet,error) {
+func (c *rolloutContext) setFinalRSStatusViaPatch(ctx context.Context, rs *appsv1.ReplicaSet, status string) (*appsv1.ReplicaSet, error) {
 	patchWithRSFinalStatus := c.generateRSFinalStatusPatch(status)
 	patch, _, err := diff.CreateTwoWayMergePatch(appsv1.ReplicaSet{}, patchWithRSFinalStatus, appsv1.ReplicaSet{})
 	if err != nil {

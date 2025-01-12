@@ -2252,7 +2252,6 @@ func TestSyncRolloutWithConflictInSyncReplicaSetRevision(t *testing.T) {
 	f.rolloutLister = append(f.rolloutLister, r2)
 	f.objects = append(f.objects, r2)
 
-
 	key := fmt.Sprintf("%s/%s", r1.Namespace, r1.Name)
 	c, i, k8sI := f.newController(func() time.Duration { return 30 * time.Minute })
 
@@ -2269,7 +2268,7 @@ func TestSyncRolloutWithConflictInSyncReplicaSetRevision(t *testing.T) {
 	patchIndex1 := f.expectPatchReplicaSetAction(rs1) // instead of update patch replicaset
 	f.expectPatchRolloutAction(r2)
 
-	f.expectUpdateReplicaSetAction(rs2)               // attempt to scale replicaset but conflict
+	f.expectUpdateReplicaSetAction(rs2)                     // attempt to scale replicaset but conflict
 	patchIndex2Status := f.expectPatchReplicaSetAction(rs2) // instead of update patch replicaset
 
 	// filterInformerActions(f.client.Actions())
