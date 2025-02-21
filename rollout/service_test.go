@@ -497,6 +497,7 @@ func TestCanaryAWSVerifyTargetGroupsNotYetReady(t *testing.T) {
 	f.expectGetEndpointsAction(ep)
 	rolloutPatchIndex := f.expectPatchRolloutAction(r2)
 	updateRs2Index := f.expectUpdateReplicaSetAction(rs2) // set final status to success
+	rolloutPatchIndex := f.expectPatchRolloutAction(r2)
 	f.run(getKey(r2, t))
 	updatedRs2 := f.getUpdatedReplicaSet(updateRs2Index)
 	assert.Equal(t, FinalStatusSuccess, updatedRs2.GetObjectMeta().GetAnnotations()[v1alpha1.ReplicaSetFinalStatusKey])
