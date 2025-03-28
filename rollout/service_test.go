@@ -100,10 +100,8 @@ func TestGetPreviewAndActiveServices(t *testing.T) {
 		noActiveSvcRollout := rollout.DeepCopy()
 		noActiveSvcRollout.Spec.Strategy.BlueGreen.ActiveService = ""
 		roCtx, err := c.newRolloutContext(noActiveSvcRollout)
-		assert.NoError(t, err)
-		_, _, err = roCtx.getPreviewAndActiveServices()
-		assert.NotNil(t, err)
-		assert.EqualError(t, err, "service \"\" not found")
+		assert.Error(t, err)
+		assert.Nil(t, roCtx)
 	})
 }
 
@@ -498,12 +496,16 @@ func TestCanaryAWSVerifyTargetGroupsNotYetReady(t *testing.T) {
 
 	f.expectGetEndpointsAction(ep)
 	updateRs2Index := f.expectUpdateReplicaSetAction(rs2) // set final status to success
+	rolloutPatchIndex := f.expectPatchRolloutAction(r2)
 	f.run(getKey(r2, t))
 	updatedRs2 := f.getUpdatedReplicaSet(updateRs2Index)
 	assert.Equal(t, FinalStatusSuccess, updatedRs2.GetObjectMeta().GetAnnotations()[v1alpha1.ReplicaSetFinalStatusKey])
 	f.assertEvents([]string{
 		conditions.TargetGroupUnverifiedReason,
 	})
+	patch := f.getPatchedRollout(rolloutPatchIndex)
+	expectedPatch := `{"status":{"selector":"foo=bar,rollouts-pod-template-hash=58c48fdff5"}}`
+	assert.JSONEq(t, expectedPatch, patch)
 }
 
 // TestCanaryAWSVerifyTargetGroupsReady verifies we proceed with scale down of old
@@ -600,7 +602,9 @@ func TestCanaryAWSVerifyTargetGroupsReady(t *testing.T) {
 
 	f.expectGetEndpointsAction(ep)
 	scaleDownRSIndex := f.expectPatchReplicaSetAction(rs1)
+
 	updateRs2Index := f.expectUpdateReplicaSetAction(rs2) // set final status to success
+	rolloutPatchIndex := f.expectPatchRolloutAction(r2)
 	f.run(getKey(r2, t))
 	updatedRs2 := f.getUpdatedReplicaSet(updateRs2Index)
 	assert.Equal(t, FinalStatusSuccess, updatedRs2.GetObjectMeta().GetAnnotations()[v1alpha1.ReplicaSetFinalStatusKey])
@@ -608,6 +612,9 @@ func TestCanaryAWSVerifyTargetGroupsReady(t *testing.T) {
 	f.assertEvents([]string{
 		conditions.TargetGroupVerifiedReason,
 	})
+	patch := f.getPatchedRollout(rolloutPatchIndex)
+	expectedPatch := `{"status":{"selector":"foo=bar,rollouts-pod-template-hash=58c48fdff5"}}`
+	assert.JSONEq(t, expectedPatch, patch)
 }
 
 // TestCanaryAWSVerifyTargetGroupsSkip verifies we skip unnecessary verification if scaledown
@@ -666,11 +673,16 @@ func TestCanaryAWSVerifyTargetGroupsSkip(t *testing.T) {
 	f.ingressLister = append(f.ingressLister, ingressutil.NewLegacyIngress(ing))
 	updateRs2Index := f.expectUpdateReplicaSetAction(rs2) // set final status to success
 
+	patchIndex := f.expectPatchRolloutAction(r2)
 	f.run(getKey(r2, t)) // there should be no api calls
 	updatedRs2 := f.getUpdatedReplicaSet(updateRs2Index)
 	assert.Equal(t, FinalStatusSuccess, updatedRs2.GetObjectMeta().GetAnnotations()[v1alpha1.ReplicaSetFinalStatusKey])
 
 	f.assertEvents(nil)
+
+	patch := f.getPatchedRollout(patchIndex)
+	expectedPatch := `{"status":{"selector":"foo=bar,rollouts-pod-template-hash=58c48fdff5"}}`
+	assert.Equal(t, expectedPatch, patch)
 }
 
 // TestShouldVerifyTargetGroups returns whether or not we should verify the target group

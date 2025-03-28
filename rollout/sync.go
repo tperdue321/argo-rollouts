@@ -82,7 +82,7 @@ func (c *rolloutContext) syncReplicaSetRevision() (*appsv1.ReplicaSet, error) {
 		rsCopy.Spec.MinReadySeconds = c.rollout.Spec.MinReadySeconds
 		rsCopy.Spec.Template.Spec.Affinity = replicasetutil.GenerateReplicaSetAffinity(*c.rollout)
 
-		rs, err := c.updateReplicaSetFallbackToPatch(ctx, rsCopy)
+		rs, err := c.updateReplicaSet(ctx, rsCopy)
 		if err != nil {
 			return nil, fmt.Errorf("failed to update replicaset revision on %s: %w", rsCopy.Name, err)
 		}
@@ -324,7 +324,10 @@ func (c *rolloutContext) isScalingEvent() (bool, error) {
 		return false, fmt.Errorf("failed to getAllReplicaSetsAndSyncRevision in isScalingEvent: %w", err)
 	}
 
-	for _, rs := range controller.FilterActiveReplicaSets(c.allRSs) {
+	// We only care about scaling events on the newRS and stableRS because these are the only replicasets that we ever
+	// adjust the replicas counts on as well as the desired annotation. When we have stacked rollouts going the middle
+	// replicasets will never have the desired annotation updated this can cause a tight loop of isScalingEvent -> syncReplicasOnly -> isScalingEvent
+	for _, rs := range controller.FilterActiveReplicaSets([]*appsv1.ReplicaSet{c.newRS, c.stableRS}) {
 		desired, ok := annotations.GetDesiredReplicasAnnotation(rs)
 		if !ok {
 			continue
@@ -369,13 +372,13 @@ func (c *rolloutContext) scaleReplicaSet(rs *appsv1.ReplicaSet, newScale int32, 
 		*(rsCopy.Spec.Replicas) = newScale
 		annotations.SetReplicasAnnotations(rsCopy, rolloutReplicas)
 		if fullScaleDown && !c.shouldDelayScaleDownOnAbort() {
-			// This bypasses the normal call to removeScaleDownDelay and then depends on the removal via an update in updateReplicaSetFallbackToPatch
+			// This bypasses the normal call to removeScaleDownDelay and then depends on the removal via an update in updateReplicaSet
 			delete(rsCopy.Annotations, v1alpha1.DefaultReplicaSetScaleDownDeadlineAnnotationKey)
 		}
 
-		rs, err = c.updateReplicaSetFallbackToPatch(ctx, rsCopy)
+		rs, err = c.updateReplicaSet(ctx, rsCopy)
 		if err != nil {
-			return scaled, rs, fmt.Errorf("failed to updateReplicaSetFallbackToPatch in scaleReplicaSet: %w", err)
+			return scaled, rs, fmt.Errorf("failed to updateReplicaSet in scaleReplicaSet: %w", err)
 		}
 
 		if sizeNeedsUpdate {
@@ -489,7 +492,7 @@ func (c *rolloutContext) checkPausedConditions() error {
 
 	var updatedConditions []*v1alpha1.RolloutCondition
 
-	if (isPaused != progCondPaused) && !abortCondExists {
+	if (isPaused != progCondPaused) && !abortCondExists && !conditions.RolloutCompleted(&c.rollout.Status) {
 		if isPaused {
 			updatedConditions = append(updatedConditions, conditions.NewRolloutCondition(v1alpha1.RolloutProgressing, corev1.ConditionUnknown, conditions.RolloutPausedReason, conditions.RolloutPausedMessage))
 		} else {
@@ -562,7 +565,10 @@ func isIndefiniteStep(r *v1alpha1.Rollout) bool {
 	if currentStep != nil && (currentStep.Experiment != nil || currentStep.Analysis != nil || currentStep.Pause != nil) {
 		return true
 	}
-	return false
+	// also check the pause condition to cover blueGreen
+	pauseCond := conditions.GetRolloutCondition(r.Status, v1alpha1.RolloutPaused)
+	pausedCondTrue := pauseCond != nil && pauseCond.Status == corev1.ConditionTrue
+	return pausedCondTrue
 }
 
 // isWaitingForReplicaSetScaleDown returns whether or not the rollout still has other replica sets with a scale down deadline annotation
@@ -713,7 +719,7 @@ func (c *rolloutContext) calculateRolloutConditions(newStatus v1alpha1.RolloutSt
 		conditions.RemoveRolloutCondition(&newStatus, v1alpha1.RolloutReplicaFailure)
 	}
 
-	if conditions.RolloutCompleted(c.rollout, &newStatus) {
+	if conditions.RolloutCompleted(&newStatus) {
 		// The event gets triggered in function promoteStable
 		updateCompletedCond := conditions.NewRolloutCondition(v1alpha1.RolloutCompleted, corev1.ConditionTrue,
 			conditions.RolloutCompletedReason, conditions.RolloutCompletedReason)

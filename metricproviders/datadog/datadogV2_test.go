@@ -8,7 +8,6 @@ import (
 	"os"
 	"testing"
 
-	"github.com/argoproj/argo-rollouts/pkg/apis/rollouts/v1alpha1"
 	log "github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/assert"
 	corev1 "k8s.io/api/core/v1"
@@ -16,6 +15,8 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	k8sfake "k8s.io/client-go/kubernetes/fake"
 	kubetesting "k8s.io/client-go/testing"
+
+	"github.com/argoproj/argo-rollouts/pkg/apis/rollouts/v1alpha1"
 )
 
 func newQueryDefaultProvider() v1alpha1.MetricProvider {
@@ -248,7 +249,7 @@ func TestRunSuiteV2(t *testing.T) {
 			},
 			expectedIntervalSeconds: 300,
 			expectedPhase:           v1alpha1.AnalysisPhaseError,
-			expectedErrorMessage:    "Could not parse JSON body: json: cannot unmarshal string into Go struct field .Data.Attributes.Columns.Values of type []float64",
+			expectedErrorMessage:    "Could not parse JSON body: json: cannot unmarshal string into Go struct field .Data.Attributes.Columns.Values of type []*float64",
 			useEnvVarForKeys:        false,
 		},
 
