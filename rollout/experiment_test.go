@@ -299,7 +299,12 @@ func TestAbortRolloutAfterFailedExperiment(t *testing.T) {
 	f.objects = append(f.objects, r2, ex)
 
 	patchIndex := f.expectPatchRolloutAction(r1)
+	updateRs2Index := f.expectUpdateReplicaSetAction(rs2) // set final status to abort
 	f.run(getKey(r2, t))
+
+	updatedRs2 := f.getUpdatedReplicaSet(updateRs2Index)
+	assert.Equal(t, FinalStatusAbort, updatedRs2.GetObjectMeta().GetAnnotations()[v1alpha1.ReplicaSetFinalStatusKey])
+
 	patch := f.getPatchedRollout(patchIndex)
 	expectedPatch := `{
 		"status": {
@@ -513,8 +518,12 @@ func TestRolloutDoNotCreateExperimentWithoutStableRS(t *testing.T) {
 	f.expectUpdateRolloutAction(r2)       // update revision
 	f.expectUpdateRolloutStatusAction(r2) // update progressing condition
 	f.expectUpdateReplicaSetAction(rs2)   // scale replicaset
+	updateRs2Index := f.expectUpdateReplicaSetAction(rs2) // set final status to success
 	f.expectPatchRolloutAction(r1)
 	f.run(getKey(r2, t))
+
+	updatedRs2 := f.getUpdatedReplicaSet(updateRs2Index)
+	assert.Equal(t, FinalStatusSuccess, updatedRs2.GetObjectMeta().GetAnnotations()[v1alpha1.ReplicaSetFinalStatusKey])
 }
 
 func TestGetExperimentFromTemplate(t *testing.T) {
@@ -732,7 +741,10 @@ func TestCancelExperimentWhenAborted(t *testing.T) {
 
 	f.expectPatchExperimentAction(ex)
 	f.expectPatchRolloutAction(r2)
+	updateRs2Index := f.expectUpdateReplicaSetAction(rs2) // set final status to abort
 	f.run(getKey(r2, t))
+	updatedRs2 := f.getUpdatedReplicaSet(updateRs2Index)
+	assert.Equal(t, FinalStatusAbort, updatedRs2.GetObjectMeta().GetAnnotations()[v1alpha1.ReplicaSetFinalStatusKey])
 }
 
 func TestRolloutCreateExperimentWithInstanceID(t *testing.T) {

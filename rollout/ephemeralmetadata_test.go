@@ -39,6 +39,7 @@ func TestSyncCanaryEphemeralMetadataInitialRevision(t *testing.T) {
 	f.expectUpdateRolloutStatusAction(r1)
 	idx := f.expectCreateReplicaSetAction(rs1)
 	f.expectUpdateReplicaSetAction(rs1)
+	f.expectUpdateReplicaSetAction(rs1) // set final status to success
 	_ = f.expectPatchRolloutAction(r1)
 	f.run(getKey(r1, t))
 	createdRS1 := f.getCreatedReplicaSet(idx)

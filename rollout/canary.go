@@ -6,7 +6,7 @@ import (
 
 	appsv1 "k8s.io/api/apps/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/utils/pointer"
+	"k8s.io/utils/ptr"
 
 	"github.com/argoproj/argo-rollouts/pkg/apis/rollouts/v1alpha1"
 	"github.com/argoproj/argo-rollouts/rollout/trafficrouting"
@@ -355,6 +355,11 @@ func (c *rolloutContext) completedCurrentCanaryStep() bool {
 	return false
 }
 
+// PERSONAL DEV NOTE -- DELETE BEFORE ANY PR
+// TODO: Current theory is this is where I should set the abort/success status on ReplicaSetFinalStatusKey for the replica set RS
+// This function has knowledge of of if the rollout is promoting full or abort
+
+
 func (c *rolloutContext) syncRolloutStatusCanary() error {
 	newStatus := c.calculateBaseStatus()
 	newStatus.AvailableReplicas = replicasetutil.GetAvailableReplicaCountForReplicaSets(c.allRSs)
@@ -410,6 +415,14 @@ func (c *rolloutContext) syncRolloutStatusCanary() error {
 		if err != nil {
 			return err
 		}
+
+		promotedRS := c.getPromotedRS(newStatus)
+		if promotedRS != nil {
+			err = c.setFinalRSStatus(promotedRS, FinalStatusSuccess)
+			if err != nil {
+				return err
+			}
+		}
 		newStatus = c.calculateRolloutConditions(newStatus)
 		return c.persistRolloutStatus(&newStatus)
 	}
@@ -419,8 +432,13 @@ func (c *rolloutContext) syncRolloutStatusCanary() error {
 			if newStatus.StableRS == newStatus.CurrentPodHash {
 				newStatus.CurrentStepIndex = &stepCount
 			} else {
-				newStatus.CurrentStepIndex = pointer.Int32Ptr(0)
+				newStatus.CurrentStepIndex = ptr.To[int32](0)
 			}
+		}
+
+		err := c.setFinalRSStatus(c.newRS, FinalStatusAbort)
+		if err != nil {
+			return err
 		}
 		newStatus = c.calculateRolloutConditions(newStatus)
 		return c.persistRolloutStatus(&newStatus)
