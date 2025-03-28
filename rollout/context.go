@@ -5,15 +5,20 @@ import (
 	"fmt"
 	"slices"
 
-	log "github.com/sirupsen/logrus"
 	appsv1 "k8s.io/api/apps/v1"
 	"k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	patchtypes "k8s.io/apimachinery/pkg/types"
 
 	"github.com/argoproj/argo-rollouts/pkg/apis/rollouts/v1alpha1"
 	analysisutil "github.com/argoproj/argo-rollouts/utils/analysis"
+	"github.com/argoproj/argo-rollouts/utils/diff"
+	log "github.com/sirupsen/logrus"
+)
 
 type rolloutContext struct {
+	log *log.Entry
+	// rollout is the rollout being reconciled
 	reconcilerBase
 	rollout *v1alpha1.Rollout
 	// newRollout is the rollout after reconciliation. used to write back to informer
@@ -161,7 +166,7 @@ func (c *rolloutContext) setFinalRSStatus(rs *appsv1.ReplicaSet, status string) 
 		if errors.IsConflict(err) {
 			// if os.Getenv("ARGO_ROLLOUTS_LOG_RS_DIFF_CONFLICT") == "true" {
 			// }
-			newRS,  err = c.setFinalRSStatusViaPatch(ctx, rs, status)
+			newRS, err = c.setFinalRSStatusViaPatch(ctx, rs, status)
 			if err != nil {
 				return fmt.Errorf("error patching replicaset in setFinalRSStatus %s: %w", rs.Name, err)
 			}
@@ -178,13 +183,13 @@ func (c *rolloutContext) setFinalRSStatus(rs *appsv1.ReplicaSet, status string) 
 	return err
 }
 
-func (c *rolloutContext) setFinalRSStatusViaUpdate(ctx context.Context, rs *appsv1.ReplicaSet, status string) (*appsv1.ReplicaSet,error) {
+func (c *rolloutContext) setFinalRSStatusViaUpdate(ctx context.Context, rs *appsv1.ReplicaSet, status string) (*appsv1.ReplicaSet, error) {
 	rs.Annotations[v1alpha1.ReplicaSetFinalStatusKey] = status
 	c.log.Infof("Updating replicaset with status: %s", status)
 	return c.kubeclientset.AppsV1().ReplicaSets(rs.Namespace).Update(ctx, rs, metav1.UpdateOptions{})
 }
 
-func (c *rolloutContext) setFinalRSStatusViaPatch(ctx context.Context, rs *appsv1.ReplicaSet, status string) (*appsv1.ReplicaSet,error) {
+func (c *rolloutContext) setFinalRSStatusViaPatch(ctx context.Context, rs *appsv1.ReplicaSet, status string) (*appsv1.ReplicaSet, error) {
 	patchWithRSFinalStatus := c.generateRSFinalStatusPatch(status)
 	patch, _, err := diff.CreateTwoWayMergePatch(appsv1.ReplicaSet{}, patchWithRSFinalStatus, appsv1.ReplicaSet{})
 	if err != nil {
