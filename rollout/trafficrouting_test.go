@@ -284,7 +284,7 @@ func TestRolloutUseDesiredWeight100(t *testing.T) {
 	})
 	f.fakeTrafficRouting.On("SetHeaderRoute", mock.Anything, mock.Anything).Return(nil)
 	f.fakeTrafficRouting.On("VerifyWeight", mock.Anything).Return(pointer.BoolPtr(true), nil)
-	
+
 	updateRs2Index := f.expectUpdateReplicaSetAction(rs2) // set final status to success
 
 	f.run(getKey(r2, t))
@@ -851,8 +851,8 @@ func TestCanaryWithTrafficRoutingAddScaleDownDelay(t *testing.T) {
 	f.rolloutLister = append(f.rolloutLister, r2)
 	f.objects = append(f.objects, r2)
 
-	rs1Patch := f.expectPatchReplicaSetAction(rs1)      // set scale-down-deadline annotation
-	rolloutPatchIndex := f.expectPatchRolloutAction(r2) // patch to update rollout status, hpa selector
+	rs1Patch := f.expectPatchReplicaSetAction(rs1)        // set scale-down-deadline annotation
+	rolloutPatchIndex := f.expectPatchRolloutAction(r2)   // patch to update rollout status, hpa selector
 	updateRs2Index := f.expectUpdateReplicaSetAction(rs2) // set final status to success
 	f.run(getKey(r2, t))
 
@@ -913,7 +913,6 @@ func TestCanaryWithTrafficRoutingScaleDownLimit(t *testing.T) {
 
 	updatedRs3 := f.getUpdatedReplicaSet(updateRs3Index)
 	assert.Equal(t, FinalStatusSuccess, updatedRs3.GetObjectMeta().GetAnnotations()[v1alpha1.ReplicaSetFinalStatusKey])
-
 
 	rs1Updated := f.getUpdatedReplicaSet(rs1ScaleDownIndex)
 	assert.Equal(t, int32(0), *rs1Updated.Spec.Replicas)
