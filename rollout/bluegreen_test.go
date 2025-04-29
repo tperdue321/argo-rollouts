@@ -11,6 +11,7 @@ import (
 
 	log "github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/assert"
+	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	core "k8s.io/client-go/testing"
@@ -20,6 +21,7 @@ import (
 	"github.com/argoproj/argo-rollouts/utils/annotations"
 	"github.com/argoproj/argo-rollouts/utils/conditions"
 	"github.com/argoproj/argo-rollouts/utils/hash"
+	logutil "github.com/argoproj/argo-rollouts/utils/log"
 	rolloututil "github.com/argoproj/argo-rollouts/utils/rollout"
 	timeutil "github.com/argoproj/argo-rollouts/utils/time"
 )
@@ -1655,4 +1657,125 @@ func TestBlueGreenAddScaleDownDelay(t *testing.T) {
 	f.run(getKey(r2, t))
 
 	f.verifyPatchedReplicaSet(rs1Patch, 30)
+}
+
+// rollbackwindowvalid test setup
+// a replica set exists before current stable rs creation timestamp
+// a newrs exists on the controller
+// if want to expect true, success status
+// or the status isn't set (validate backwards safety)
+//
+// if expect false
+// final status should be abort
+
+// func TestBlueGreen_isRollbackWithinWindowAndValid(t *testing.T) {
+// 	f := newFixture(t)
+// 	defer f.Close()
+
+// 	ro := newBlueGreenRollout("foo", 1, nil, "active", "")
+
+// 	rs1 := newReplicaSetWithStatus(ro, 1, 1)
+// 	rs2 := newReplicaSetWithStatus(ro, 1, 1)
+// 	rs3 := newReplicaSetWithStatus(ro, 1, 1)
+// 	rs1PodHash := rs1.Labels[v1alpha1.DefaultRolloutUniqueLabelKey]
+
+// 	ro.Status.CurrentPodHash = rs3.Labels[v1alpha1.DefaultRolloutUniqueLabelKey]
+// 	ro.Status.StableRS = rs3.Labels[v1alpha1.DefaultRolloutUniqueLabelKey]
+// 	activeSvc := newService("active", 80, map[string]string{v1alpha1.DefaultRolloutUniqueLabelKey: ""}, ro)
+
+// 	rs2.Annotations[v1alpha1.ReplicaSetFinalStatusKey] = FinalStatusAbort
+// 	ctrl, _, _ := f.newController(noResyncPeriodFunc)
+// 	roCtx, err := ctrl.newRolloutContext(ro)
+
+// 	f.run(getKey(ro,t))
+
+// }
+
+// TestRollbackWindow verifies the rollback window conditions
+func TestBlueGreen_isRollbackWithinWindowAndValid(t *testing.T) {
+	now := timeutil.MetaNow()
+
+	replicaSets := []*appsv1.ReplicaSet{
+		{
+			ObjectMeta: metav1.ObjectMeta{
+				Name:              "foo-4",
+				CreationTimestamp: metav1.Time{Time: now.Add(-time.Minute * 5)},
+			},
+		},
+		{
+			ObjectMeta: metav1.ObjectMeta{
+				Name:              "foo-3",
+				CreationTimestamp: metav1.Time{Time: now.Add(-time.Minute * 4)},
+			},
+		},
+		{
+			ObjectMeta: metav1.ObjectMeta{
+				Name:              "foo-2",
+				CreationTimestamp: metav1.Time{Time: now.Add(-time.Minute * 3)},
+			},
+		},
+		{
+			ObjectMeta: metav1.ObjectMeta{
+				Name:              "foo-1",
+				CreationTimestamp: metav1.Time{Time: now.Add(-time.Minute * 2)},
+			},
+		},
+		{
+			ObjectMeta: metav1.ObjectMeta{
+				Name:              "foo-experiment",
+				CreationTimestamp: metav1.Time{Time: now.Add(-time.Minute)},
+				Annotations: map[string]string{
+					v1alpha1.ExperimentNameAnnotationKey: "my-experiment",
+				},
+			},
+		},
+		{
+			ObjectMeta: metav1.ObjectMeta{
+				Name:              "foo",
+				CreationTimestamp: now,
+			},
+		},
+	}
+	testRuns := []struct {
+		stableRS       *appsv1.ReplicaSet
+		newRS          *appsv1.ReplicaSet
+		revisionWindow int32
+		expectedWithin bool
+	}{
+		{
+			replicaSets[1], replicaSets[0], 1, true,
+		},
+		{
+			replicaSets[2], replicaSets[0], 2, true,
+		},
+		// from 5->3 the window is 1 because experiments are excluded
+		{
+			replicaSets[5], replicaSets[3], 1, true,
+		},
+	}
+	for _, test := range testRuns {
+		ctx := &rolloutContext{
+			allRSs:   replicaSets,
+			newRS:    test.newRS,
+			stableRS: test.stableRS,
+		}
+
+		ctx.rollout = &v1alpha1.Rollout{
+			ObjectMeta: metav1.ObjectMeta{
+				Name:      "foo",
+				Namespace: "default",
+			},
+			Spec: v1alpha1.RolloutSpec{
+				RollbackWindow: &v1alpha1.RollbackWindowSpec{
+					Revisions: test.revisionWindow,
+				},
+			},
+		}
+		ctx.log = logutil.WithRollout(ctx.rollout)
+		if test.expectedWithin {
+			assert.True(t, ctx.isRollbackWithinWindow())
+		} else {
+			assert.False(t, ctx.isRollbackWithinWindow())
+		}
+	}
 }

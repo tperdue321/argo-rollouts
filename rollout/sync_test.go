@@ -558,6 +558,179 @@ func TestRollbackWindow(t *testing.T) {
 	}
 }
 
+// TestRollbackWindow verifies the rollback window conditions
+func Test_isfinalStatusValid(t *testing.T) {
+}
+
+func Test_isRollbackWithinWindowAndValid(t *testing.T) {
+	now := timeutil.MetaNow()
+
+	replicaSets := []*appsv1.ReplicaSet{
+		{
+			ObjectMeta: metav1.ObjectMeta{
+				Name:              "foo-4",
+				CreationTimestamp: metav1.Time{Time: now.Add(-time.Minute * 8)},
+				Annotations: map[string]string{
+					v1alpha1.ReplicaSetFinalStatusKey: FinalStatusSuccess,
+				},
+			},
+		},
+		{
+			ObjectMeta: metav1.ObjectMeta{
+				Name:              "foo-3",
+				CreationTimestamp: metav1.Time{Time: now.Add(-time.Minute * 7)},
+				Annotations: map[string]string{
+					v1alpha1.ReplicaSetFinalStatusKey: FinalStatusAbort,
+				},
+			},
+		},
+		{
+			ObjectMeta: metav1.ObjectMeta{
+				Name:              "foo-4",
+				CreationTimestamp: metav1.Time{Time: now.Add(-time.Minute * 6)},
+				Annotations: map[string]string{
+					v1alpha1.ReplicaSetFinalStatusKey: FinalStatusSuccess,
+				},
+			},
+		},
+		{
+			ObjectMeta: metav1.ObjectMeta{
+				Name:              "foo-2",
+				CreationTimestamp: metav1.Time{Time: now.Add(-time.Minute * 5)},
+			},
+		},
+		{
+			ObjectMeta: metav1.ObjectMeta{
+				Name:              "foo-1",
+				CreationTimestamp: metav1.Time{Time: now.Add(-time.Minute * 4)},
+			},
+		},
+		{
+			ObjectMeta: metav1.ObjectMeta{
+				Name:              "foo-1",
+				CreationTimestamp: metav1.Time{Time: now.Add(-time.Minute * 3)},
+			},
+		},
+		{
+			ObjectMeta: metav1.ObjectMeta{
+				Name:              "foo-1",
+				CreationTimestamp: metav1.Time{Time: now.Add(-time.Minute * 2)},
+			},
+		},
+		{
+			ObjectMeta: metav1.ObjectMeta{
+				Name:              "foo-experiment",
+				CreationTimestamp: metav1.Time{Time: now.Add(-time.Minute * 1)},
+				Annotations: map[string]string{
+					v1alpha1.ExperimentNameAnnotationKey: "my-experiment",
+				},
+			},
+		},
+		{
+			ObjectMeta: metav1.ObjectMeta{
+				Name:              "foo",
+				CreationTimestamp: now,
+			},
+		},
+	}
+	testRuns := []struct {
+		testName        string
+		stableRS        *appsv1.ReplicaSet
+		newRS           *appsv1.ReplicaSet
+		revisionWindow  int32
+		expectedWithin  bool
+		expectedisValid bool
+	}{
+		// no stable and no new rs
+		{
+			"stableRS and newRS are nil", nil, nil, 3, false, true,
+		},
+		// no stable rs
+		{
+			"stableRS is nil", nil, replicaSets[3], 3, false, true,
+		},
+		// no new rs
+		{
+			"newRS is nil", replicaSets[3], nil, 3, false, true,
+		},
+		// validate legacy behavior (no final status set)
+		// new rs created after stable rs (not a rollback)
+		{
+			"not a rollback", replicaSets[3], replicaSets[4], 1, false, true,
+		},
+		// is a rollback and within window, window of 1
+		{
+			"rollback within window of 1", replicaSets[4], replicaSets[3], 1, true, true,
+		},
+		// is a rollback and within window, window of N where N is not 1
+		{
+			"rollback within window of N", replicaSets[5], replicaSets[3], 2, true, true,
+		},
+		// is a rollback outside of window, window of N where N is not 1
+		{
+			"rollback outside window of N", replicaSets[6], replicaSets[3], 2, false, true,
+		},
+		// from 5->3 the window is 1 because experiments are excluded
+		{
+			"experiments should be exclude from window count", replicaSets[8], replicaSets[6], 1, true, true,
+		},
+
+		// validate new behavior where rollback should not be fast
+		// stableRS final-status "success" -> newRS final-status "abort"
+		// new rs created after stable rs (not a rollback)
+		{
+			"Not a rollback; final-status annotation success present; valid is true", replicaSets[0], replicaSets[1], 1, false, false,
+		},
+		// is a rollback and within window, window of 1
+		{
+			"rollback within window of 1; final-status annotation abort present; valid is false", replicaSets[2], replicaSets[1], 1, true, false,
+		},
+		// is a rollback and within window, window of N where N is not 1
+		{
+			"rollback within window of 1; final-status annotation abort present; valid is false", replicaSets[3], replicaSets[1], 2, true, false,
+		},
+		// is a rollback outside of window, window of N where N is not 1
+		{
+			"rollback outside window of N; final-status annotation abort present; valid is false", replicaSets[4], replicaSets[1], 2, false, false,
+		},
+		// from 5->3 the window is 1 because experiments are excluded
+		{
+			"experiments should be exclude from window count; final-status annotation abort present; valid is false", replicaSets[8], replicaSets[1], 6, true, false,
+		},
+
+		// validate new behavior where rollback should be fast
+		// stableRS final-status "abort" -> newRS final-status "success"
+
+		// validate new behavior where rollback should be fast
+		// stableRS final-status "success" -> newRS final-status "success"
+	}
+	for _, test := range testRuns {
+		t.Run(test.testName, func(t *testing.T) {
+			ctx := &rolloutContext{
+				allRSs:   replicaSets,
+				newRS:    test.newRS,
+				stableRS: test.stableRS,
+			}
+
+			ctx.rollout = &v1alpha1.Rollout{
+				ObjectMeta: metav1.ObjectMeta{
+					Name:      "foo",
+					Namespace: "default",
+				},
+				Spec: v1alpha1.RolloutSpec{
+					RollbackWindow: &v1alpha1.RollbackWindowSpec{
+						Revisions: test.revisionWindow,
+					},
+				},
+			}
+			ctx.log = logutil.WithRollout(ctx.rollout)
+			assert.Equal(t, test.expectedWithin, ctx.isRollbackWithinWindow())
+			assert.Equal(t, test.expectedisValid, ctx.isfinalStatusValid())
+			assert.Equal(t, test.expectedWithin && test.expectedisValid, ctx.isRollbackWithinWindowAndValid())
+		})
+	}
+}
+
 func Test_shouldFullPromote(t *testing.T) {
 	now := timeutil.MetaNow()
 	before1m := metav1.Time{Time: now.Add(-time.Minute)}
