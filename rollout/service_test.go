@@ -495,6 +495,7 @@ func TestCanaryAWSVerifyTargetGroupsNotYetReady(t *testing.T) {
 	f.ingressLister = append(f.ingressLister, ingressutil.NewLegacyIngress(ing))
 
 	f.expectGetEndpointsAction(ep)
+	rolloutPatchIndex := f.expectPatchRolloutAction(r2)
 	updateRs2Index := f.expectUpdateReplicaSetAction(rs2) // set final status to success
 	f.run(getKey(r2, t))
 	updatedRs2 := f.getUpdatedReplicaSet(updateRs2Index)
