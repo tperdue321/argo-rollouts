@@ -365,6 +365,8 @@ func (c *rolloutContext) completedCurrentCanaryStep() bool {
 	return false
 }
 
+// TODO: Current theory is this is where I should set the abort/success status on ReplicaSetFinalStatusKey for the replica set RS
+// This function has knowledge of of if the rollout is promoting full or abort
 func (c *rolloutContext) syncRolloutStatusCanary() error {
 	newStatus := c.calculateBaseStatus()
 	newStatus.AvailableReplicas = replicasetutil.GetAvailableReplicaCountForReplicaSets(c.allRSs)
@@ -420,6 +422,10 @@ func (c *rolloutContext) syncRolloutStatusCanary() error {
 		if err != nil {
 			return err
 		}
+		err = c.setFinalRSStatus(FinalStatusSuccess)
+		if err != nil {
+			return err
+		}
 		newStatus = c.calculateRolloutConditions(newStatus)
 		return c.persistRolloutStatus(&newStatus)
 	}
@@ -431,6 +437,11 @@ func (c *rolloutContext) syncRolloutStatusCanary() error {
 			} else {
 				newStatus.CurrentStepIndex = pointer.Int32Ptr(0)
 			}
+		}
+
+		err := c.setFinalRSStatus(FinalStatusAbort)
+		if err != nil {
+			return err
 		}
 		newStatus = c.calculateRolloutConditions(newStatus)
 		return c.persistRolloutStatus(&newStatus)
