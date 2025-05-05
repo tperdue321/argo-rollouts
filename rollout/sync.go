@@ -904,35 +904,43 @@ func (c *rolloutContext) resetRolloutStatus(newStatus *v1alpha1.RolloutStatus) {
 	newStatus.Canary.StepPluginStatuses = nil
 	newStatus.CurrentStepIndex = replicasetutil.ResetCurrentStepIndex(c.rollout)
 }
+func (c *rolloutContext) isRollbackWithinWindowAndValid() bool {
+	return c.isRollbackWithinWindow() && c.isfinalStatusValid()
+}
+
+// Checks if the ReplicaSetFinalStatusKey annotation is present and not set to FinalStatusAbort
+// a lack of the annotation or the value not being set to FinalStatusAbort means it's a valid replica set.
+func (c *rolloutContext) isfinalStatusValid() bool {
+	if c.newRS != nil && c.newRS.Annotations != nil {
+		finalStatus := c.newRS.Annotations[v1alpha1.ReplicaSetFinalStatusKey]
+		return finalStatus != FinalStatusAbort
+	}
+	return true
+}
 
 func (c *rolloutContext) isRollbackWithinWindow() bool {
 	if c.newRS == nil || c.stableRS == nil {
 		return false
 	}
-	// first check if this is a rollback
-	if c.newRS.CreationTimestamp.Before(&c.stableRS.CreationTimestamp) {
-		// then check if we are within window
-		if c.rollout.Spec.RollbackWindow != nil {
-			if c.rollout.Spec.RollbackWindow.Revisions > 0 {
-				var windowSize int32
-				for _, rs := range c.allRSs {
-					if rs.Annotations != nil && rs.Annotations[v1alpha1.ExperimentNameAnnotationKey] != "" {
-						continue
-					}
+	// check if this is a rollback and if we are within the rollback window
+	if c.newRS.CreationTimestamp.Before(&c.stableRS.CreationTimestamp) && c.rollout.Spec.RollbackWindow != nil && c.rollout.Spec.RollbackWindow.Revisions > 0 {
+		var windowSize int32
+		for _, rs := range c.allRSs {
+			if rs.Annotations != nil && rs.Annotations[v1alpha1.ExperimentNameAnnotationKey] != "" {
+				continue
+			}
 
-					// is newRS < rs < stableRS ? then it's part of the window
-					if rs.CreationTimestamp.Before(&c.stableRS.CreationTimestamp) &&
-						c.newRS.CreationTimestamp.Before(&rs.CreationTimestamp) {
-						windowSize = windowSize + 1
-					}
-				}
-				if windowSize < c.rollout.Spec.RollbackWindow.Revisions {
-					c.log.Infof("Rollback within the window: %d (%v)", windowSize, c.rollout.Spec.RollbackWindow.Revisions)
-					return true
-				}
-				c.log.Infof("Rollback outside the window: %d (%v)", windowSize, c.rollout.Spec.RollbackWindow.Revisions)
+			// is newRS < rs < stableRS ? then it's part of the window
+			if rs.CreationTimestamp.Before(&c.stableRS.CreationTimestamp) &&
+				c.newRS.CreationTimestamp.Before(&rs.CreationTimestamp) {
+				windowSize = windowSize + 1
 			}
 		}
+		if windowSize < c.rollout.Spec.RollbackWindow.Revisions {
+			c.log.Infof("Rollback within the window: %d (%v)", windowSize, c.rollout.Spec.RollbackWindow.Revisions)
+			return true
+		}
+		c.log.Infof("Rollback outside the window: %d (%v)", windowSize, c.rollout.Spec.RollbackWindow.Revisions)
 	}
 	return false
 }
@@ -953,7 +961,7 @@ func (c *rolloutContext) shouldFullPromote(newStatus v1alpha1.RolloutStatus) str
 		if c.rollout.Status.PromoteFull {
 			return "Full promotion requested"
 		}
-		if c.isRollbackWithinWindow() {
+		if c.isRollbackWithinWindowAndValid() {
 			return "Rollback within window"
 		}
 		_, currentStepIndex := replicasetutil.GetCurrentCanaryStep(c.rollout)
@@ -980,7 +988,7 @@ func (c *rolloutContext) shouldFullPromote(newStatus v1alpha1.RolloutStatus) str
 		if c.rollout.Status.PromoteFull {
 			return "Full promotion requested"
 		}
-		if c.isRollbackWithinWindow() {
+		if c.isRollbackWithinWindowAndValid() {
 			return "Rollback within window"
 		}
 		if c.pauseContext.IsAborted() {
