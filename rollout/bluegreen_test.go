@@ -1078,12 +1078,6 @@ func TestBlueGreenRolloutScaleUpdateStableRS(t *testing.T) {
 	f.expectUpdateReplicaSetAction(rs2)
 
 	f.run(getKey(r2, t))
-
-	// // validate final status for replica set is success
-	// updatedRs2 := f.getUpdatedReplicaSet(updateRs2Index)
-	// assert.NotNil(t, updatedRs2)
-	// assert.Equal(t, FinalStatusSuccess, updatedRs2.GetObjectMeta().GetAnnotations()[v1alpha1.ReplicaSetFinalStatusKey])
-
 }
 
 func TestBlueGreenStableRSReconciliationShouldNotScaleOnFirstTimeRollout(t *testing.T) {
@@ -1165,8 +1159,6 @@ func TestPreviewReplicaCountHandleScaleUpPreviewCheckPoint(t *testing.T) {
 		f.serviceLister = append(f.serviceLister, activeSvc)
 
 		patchIndex := f.expectPatchRolloutAction(r1)
-		// this doesn't feel like it should be "success" or done yet
-		// updateRsIndex := f.expectUpdateReplicaSetAction(rs1) // set final status of RS
 		f.run(getKey(r2, t))
 
 		patch := f.getPatchedRollout(patchIndex)
