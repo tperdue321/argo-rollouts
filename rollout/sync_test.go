@@ -555,9 +555,9 @@ func TestRollbackWindow(t *testing.T) {
 		}
 		ctx.log = logutil.WithRollout(ctx.rollout)
 		if test.expectedWithin {
-			assert.True(t, ctx.isRollbackWithinWindow())
+			assert.True(t, ctx.isRollbackWithinWindowAndValid())
 		} else {
-			assert.False(t, ctx.isRollbackWithinWindow())
+			assert.False(t, ctx.isRollbackWithinWindowAndValid())
 		}
 	}
 }
