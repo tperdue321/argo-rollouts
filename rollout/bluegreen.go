@@ -272,7 +272,7 @@ func (c *rolloutContext) syncRolloutStatusBlueGreen(previewSvc *corev1.Service, 
 	if replicasetutil.CheckPodSpecChange(c.rollout, c.newRS) {
 		c.resetRolloutStatus(&newStatus)
 	}
-	if c.rollout.Status.PromoteFull || c.isRollbackWithinWindow() {
+	if c.rollout.Status.PromoteFull || c.isRollbackWithinWindowAndValid() {
 		c.pauseContext.ClearPauseConditions()
 		c.pauseContext.RemoveAbort()
 	}
