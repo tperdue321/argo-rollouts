@@ -908,7 +908,7 @@ func (c *rolloutContext) resetRolloutStatus(newStatus *v1alpha1.RolloutStatus) {
 }
 
 func (c *rolloutContext) isRollbackWithinWindowAndValid() bool {
-	return c.isRollbackWithinWindowAndValid() && c.isfinalStatusValid()
+	return c.isRollbackWithinWindow() && c.isfinalStatusValid()
 }
 
 func (c *rolloutContext) isfinalStatusValid() bool {
