@@ -913,8 +913,8 @@ func (c *rolloutContext) isRollbackWithinWindowAndValid() bool {
 
 func (c *rolloutContext) isfinalStatusValid() bool {
 	if c.newRS != nil && c.newRS.Annotations != nil {
-		finalStatus := c.newRS.Annotations[v1alpha1.ReplicaSetFinalStatusKey]
-		return finalStatus != FinalStatusAbort
+		finalStatus := c.newRS.Annotations[v1alpha1.ReplicaSetStateKey]
+		return finalStatus != RSStateAbort
 	}
 	return true
 }
