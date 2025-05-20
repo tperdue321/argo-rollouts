@@ -908,13 +908,13 @@ func (c *rolloutContext) resetRolloutStatus(newStatus *v1alpha1.RolloutStatus) {
 }
 
 func (c *rolloutContext) isRollbackWithinWindowAndValid() bool {
-	return c.isRollbackWithinWindow() && c.isfinalStatusValid()
+	return c.isRollbackWithinWindow() && c.isRSStateValid()
 }
 
-func (c *rolloutContext) isfinalStatusValid() bool {
+func (c *rolloutContext) isRSStateValid() bool {
 	if c.newRS != nil && c.newRS.Annotations != nil {
-		finalStatus := c.newRS.Annotations[v1alpha1.ReplicaSetStateKey]
-		return finalStatus != RSStateAbort
+		RSState := c.newRS.Annotations[v1alpha1.ReplicaSetStateKey]
+		return RSState != RSStateAbort
 	}
 	return true
 }

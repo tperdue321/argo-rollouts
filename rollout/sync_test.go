@@ -627,7 +627,7 @@ func Test_isRollbackWithinWindowAndValid(t *testing.T) {
 			}
 			ctx.log = logutil.WithRollout(ctx.rollout)
 			assert.Equal(t, test.expectedWithin, ctx.isRollbackWithinWindow())
-			assert.Equal(t, test.expectedisValid, ctx.isfinalStatusValid())
+			assert.Equal(t, test.expectedisValid, ctx.isRSStateValid())
 			assert.Equal(t, test.expectedWithin && test.expectedisValid, ctx.isRollbackWithinWindowAndValid())
 		})
 	}
